@@ -47,15 +47,15 @@ int main(int argc, char ** argv) {
     int* linesPerColumn = malloc(sizeof(int));    //6
     int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
-    *nColumn = 2;
-    *linesPerColumn = 3;
-    *columnWidth = 20;
+    *nColumn = 3;
+    *linesPerColumn = 12;
+    *columnWidth = 25;
     *distanceColumn = 7;
 
     //Input text
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
-    char* pathFile = getPath("es.txt");
+    char* pathFile = getPath("Input2.txt");
     char* input_text = readFile(pathFile);
     //Total length
     int* pageLength = malloc(sizeof(int));
@@ -69,11 +69,11 @@ int main(int argc, char ** argv) {
 
 
 
-    int* row = malloc(sizeof(int));
-    int* nwords = malloc(sizeof(int));
-    int* countRow = malloc(sizeof(int));
-    int* countColumn = malloc(sizeof(int));
-    int* countPage = malloc(sizeof(int));
+    int* row = malloc(sizeof(int));             //per scrivere sull'array di output
+    int* nwords = malloc(sizeof(int));          //per contare il numero di parole che entrano su una riga di una colonna
+    int* countRow = malloc(sizeof(int));        //per tenere traccia delle righe scritte in una colonna
+    int* countColumn = malloc(sizeof(int));     //per tenere traccia del numero di colonne scritte
+    int* countPage = malloc(sizeof(int));       //puntatore per tornare all'inizio della colonna successiva (quando non si è più nella prima pagina)
     int conspazi = 0;
 
     for (char* token = strtok(input_text, " "); token != NULL; token = strtok(NULL, " ")) {
@@ -289,14 +289,7 @@ void emptyRow(int* row, char** outputText, int* columnWidth, int* distanceColumn
             //strcat(outputText[*row], "\n"); //segmentation fault
             *row +=1;
             *countRow = 0;
-            *countPage = *row + 3;
-            for (int i = 0; i < 3; i++) {
-                outputText[*row+i] = malloc(sizeof(char*) * (*total_length));
-            }
-            *row += 2;
-            //*countPage += 1;  //nuova pagina 
-            outputText = realloc(outputText, (*linesPerColumn+3)**countPage); 
-            //INSERIRE FUNZIONE PER %%%
+            newPage(outputText, row, countPage, linesPerColumn, total_length);
         }
         else {
                 //*row = (*linesPerColumn+3)**countPage;
@@ -385,15 +378,6 @@ int len(char* word) {
             }
             else { lenW = lenW + 0.5; }
         }
-        /*
-    int n = (int) lenW;
-    n -= 1;
-    char ch = word[n];
-    char ch2 = word[n-1];
-    if (ch == '\r') {
-        lenW = lenW -1;
-    }
-    */
     return (int) lenW;
 }
 
@@ -410,6 +394,7 @@ void spaceWord(int* array_spaces, int* n_spaces, int remaining_spaces){
     }
 }
 
+/*
 void newLine(int riga, int colonna, char** matrix) {
     char nextLine[2] = "\n";
     for (int i = 0; i < 2; i++) {
@@ -418,11 +403,12 @@ void newLine(int riga, int colonna, char** matrix) {
     }
     riga ++;
 }
+*/
 
 void newPage(char** outputText, int* row, int*countPage, int* linesPerColumn, int* total_length){
     outputText = realloc(outputText, (*linesPerColumn+1)*(*countPage+1)); 
-    for (int i = *countPage; i < (*linesPerColumn+1); i++) {
-        outputText[*row+i] = malloc(*total_length*sizeof(*outputText[*row+i]));
+    for (int i = *countPage; i < (*linesPerColumn+1)*(*countPage+1); i++) {
+        outputText[*row+i] = malloc(*total_length*sizeof(*outputText[*row+i])); 
     }
     strcat(outputText[*row], "\n%%%\n");
 
