@@ -24,16 +24,16 @@ int lenPage(int n_column, int column_width, int distance_column);
 void spaceWord(int* array_spaces, int* n_spaces, int remaining_spaces);
 void newLine(int riga, int colonna, char** matrix);
 void emptySpaceColumns(int spazio_colonne, int riga, int colonna, char** matrice);
-void justify(int *nwords, int* currentRow, char** array, char **outputText, int* countColumn, int* distanceColumn, int* nColumn, int* countRow,
+char** justify(int *nwords, int* currentRow, char** array, char **outputText, int* countColumn, int* distanceColumn, int* nColumn, int* countRow,
     int* linesPerColumn, int* startRow, int* columnWidth, int* total_length, int* nPage);
 void writeText(char** array);
 void inizializza(char** array, int* size, int* length);
-void noJustified(int *nwords, int* currentRow, char** array, char** outputText, int* columnWidt, int conSpazi, int* distanceColumn, int* ncolumn, 
+char** noJustified(int *nwords, int* currentRow, char** array, char** outputText, int* columnWidt, int conSpazi, int* distanceColumn, int* ncolumn, 
     int* countColumn, int* linesPerColumn, int* countRow, int* startRow, int* total_length, int* nPage);
 void printArray(char** a, int* linesPerColumn, int* startRow);
-void emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow,
+char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow,
      int*linesPerColumn, int* startRow, int* total_length, int* nPage);
-void newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int*nPage); 
+char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int*nPage); 
 
 int main(int argc, char ** argv) {
     char* nameFile = argv[0];
@@ -49,7 +49,7 @@ int main(int argc, char ** argv) {
     int* linesPerColumn = malloc(sizeof(int));    //6
     int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
-    *nColumn = 3;
+    *nColumn = 2;
     *linesPerColumn = 2;
     *columnWidth = 25;
     *distanceColumn = 7;
@@ -80,7 +80,9 @@ int main(int argc, char ** argv) {
     for (char* token = strtok(input_text, " "); token != NULL; token = strtok(NULL, " ")) {
         int lenWord = len(token);
         char* occurrence = strstr(token, "\r\n\r\n");
+        printArray(outputText, linesPerColumn, nPage);
         if (occurrence) {
+            
             //NoJUSTIFY
             //printf("si");
             int lenToken1 = len(token) - len(occurrence);
@@ -94,27 +96,27 @@ int main(int argc, char ** argv) {
                 strcpy(array[*nwords], token1);
                 *nwords += 1;
                 // NO JUSTIFY
-                noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+                outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
                 //*nwords = 1;
                 //strcpy(array[0], token2);
                 //conspazi = len(token2) +1;
                 if (*currentRow != *startRow) {
-                    emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
+                    outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
                 }
                 printArray(outputText, linesPerColumn, startRow);
     
             }
             else {
                 
-                justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn, countRow, 
+                outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn, countRow, 
                 linesPerColumn, startRow, columnWidth, pageLength, nPage);
                 *nwords = 0;
                 strcpy(array[*nwords], token1);
                 *nwords +=1;
                 conspazi = lenToken1; //+1
-                noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+                outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
                 if (*currentRow != *startRow) {
-                    emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
+                    outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
                 }
             }
             *nwords = 1;
@@ -129,9 +131,9 @@ int main(int argc, char ** argv) {
             *nwords += 1;
         }
         else {
-            justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn,
+            outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn,
                                     countRow, linesPerColumn, startRow, columnWidth, pageLength, nPage);
-            printArray(outputText, linesPerColumn, nPage);
+            
             //*countRow += 1;
             conspazi = lenWord + 1;         
             *nwords = 0;
@@ -140,12 +142,12 @@ int main(int argc, char ** argv) {
         }
     }
 
-    noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+    outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
     //printArray(outputText, countRow);
     return 0;
 }
 
-void justify(int *nwords, int* currentRow, char** array, char **outputText, int* countColumn, int* distanceColumn, int* nColumn, int* countRow,
+char** justify(int *nwords, int* currentRow, char** array, char **outputText, int* countColumn, int* distanceColumn, int* nColumn, int* countRow,
     int* linesPerColumn, int* startRow, int* columnWidth, int* total_length, int* nPage) {
     int n_of_char = 0;
     for(int i = 0; i < *nwords; i++){
@@ -184,7 +186,7 @@ void justify(int *nwords, int* currentRow, char** array, char **outputText, int*
             //*row +=1;
             //*startRow = *row + 3;
             //REALLOC
-            newPage(outputText, currentRow, startRow, linesPerColumn, total_length, nPage);
+            outputText = newPage(outputText, currentRow, startRow, linesPerColumn, total_length, nPage);
             *countRow = 0;
             *countColumn = 0;
         }
@@ -196,10 +198,10 @@ void justify(int *nwords, int* currentRow, char** array, char **outputText, int*
                 *countColumn += 1;
             }
     }
-
+    return outputText;
 }
 
-void noJustified(int *nwords, int* currentRow, char** array, char** outputText, int* columnWidth, int conSpazi, int* distanceColumn, int* ncolumn, int* countColumn, 
+char** noJustified(int *nwords, int* currentRow, char** array, char** outputText, int* columnWidth, int conSpazi, int* distanceColumn, int* ncolumn, int* countColumn, 
             int* linesPerColumn, int* countRow, int* startRow, int* total_length, int* nPage){
     int count = 0;
     int lenParole = 0;
@@ -228,7 +230,7 @@ void noJustified(int *nwords, int* currentRow, char** array, char** outputText, 
     if (*countRow == *linesPerColumn) {
         if (*countColumn == *ncolumn-1) {
             //*row +=1;
-            newPage(outputText, currentRow, startRow, linesPerColumn, total_length, nPage);
+            outputText = newPage(outputText, currentRow, startRow, linesPerColumn, total_length, nPage);
             *countRow = 0;
             *countColumn = 0;
         }
@@ -238,9 +240,10 @@ void noJustified(int *nwords, int* currentRow, char** array, char** outputText, 
             *countColumn += 1;
             }
     }
+    return outputText;
 }
 
-void emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow, int*linesPerColumn, int* startRow, int* total_length, int* nPage){
+char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow, int*linesPerColumn, int* startRow, int* total_length, int* nPage){
     //char* str = malloc(100* sizeof(*str));
     //strcpy(str, strcat(outputText[*currentRow], " "));
     if (*countColumn < *ncolumn - 1) {
@@ -265,7 +268,7 @@ void emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanc
         if (*countColumn == *ncolumn-1) {
             //strcat(outputText[*row], "\n"); //segmentation fault
             //*row +=1;
-            newPage(outputText, currentRow, startRow, linesPerColumn, total_length, nPage);
+            outputText = newPage(outputText, currentRow, startRow, linesPerColumn, total_length, nPage);
             *countRow = 0;
             *countColumn = 0;
         }
@@ -276,6 +279,7 @@ void emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanc
             *countColumn += 1;
             }
     }
+    return outputText;
 }
 
 void printArray(char** a, int* linesPerColumn, int* nPage) {
@@ -372,19 +376,19 @@ void spaceWord(int* array_spaces, int* n_spaces, int remaining_spaces){
     }
 }
 
-void newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){
-    outputText = realloc(outputText, ((*linesPerColumn)*(*nPage+1)+1)); 
-    int lungh = (*linesPerColumn)*(*nPage+1)+1;
+char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){
+    int lungh = (*linesPerColumn + 1)*(*nPage+1) - 1;
+    outputText = realloc(outputText, lungh); 
     int riga = *currentRow;
 
-    for (int i = *startRow; i < lungh; i++) {
-        outputText[riga+i] = malloc(*total_length*sizeof(*outputText[riga+i])); 
+    for (int i = riga; i < lungh; i++) {
+        outputText[i] = malloc(*total_length*sizeof(*outputText[i])); 
     }
     //strcat(outputText[*row], "\n%%%\n");
     *currentRow = riga;
     int spazi = *total_length;
     //addSpace(outputText, currentRow, spazi);
-    strcat(outputText[*currentRow], "NUOVA\n");
+    strcat(outputText[*currentRow], "NUOVA");
     //char* str1 = malloc(sizeof(*str1));                     //100
     //strcpy(str1, outputText[*row]);
     //strcpy(outputText[*row], strcat(str1, "\n%%%\n"));
@@ -392,6 +396,7 @@ void newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColu
     *nPage +=1;
     *currentRow += 1;
     *startRow = *currentRow;
+    return outputText;
 } 
 
 void emptySpaceColumns(int spazio_colonne, int riga, int colonna, char** matrice){
