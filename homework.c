@@ -57,8 +57,8 @@ int main(int argc, char ** argv) {
     int* linesPerColumn = malloc(sizeof(int));    //6
     int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
-    *nColumn = 2;
-    *linesPerColumn = 3;
+    *nColumn = 3;
+    *linesPerColumn = 30;
     *columnWidth = 25;
     *distanceColumn = 7;
 
@@ -89,7 +89,7 @@ int main(int argc, char ** argv) {
     for (char* token = strtok(input_text, " "); token != NULL; token = strtok(NULL, " ")) {
         int lenWord = len(token);
         char* occurrence = strstr(token, "\r\n\r\n");
-        printArray(outputText, linesPerColumn, nPage);
+        //printArray(outputText, linesPerColumn, nPage);
         if (occurrence) {
             outputText = newParagraph(outputText, array, token, occurrence, conspazi, columnWidth, nwords, currentRow, distanceColumn, nColumn, 
                             countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
@@ -109,6 +109,8 @@ int main(int argc, char ** argv) {
     }
     outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
     //printArray(outputText, countRow);
+    printArray(outputText, linesPerColumn, nPage);
+
     return 0;
 }
 
@@ -219,7 +221,7 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
         if (*currentRow != *startRow) {
             outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
         }
-        printArray(outputText, linesPerColumn, startRow);
+        //printArray(outputText, linesPerColumn, startRow);
     }
     //altrimenti l'ultima parola del paragrafo viene scritta nella riga successiva e non viene allineata a sinistra
     else {     
@@ -243,15 +245,14 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
 //funzione per creare la nuova pagina
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){
     int lungh = (*linesPerColumn + 1)*(*nPage+1) - 1;
-    outputText = realloc(outputText, lungh); 
+    *outputText = realloc(*outputText, sizeof(char*) * lungh);
     int riga = *currentRow;
-
     for (int i = riga; i < lungh; i++) {
         outputText[i] = malloc(*total_length*sizeof(*outputText[i])); 
     }
     *currentRow = riga;
     int spazi = *total_length;
-    strcat(outputText[*currentRow], "NUOVA");
+    strcat(outputText[*currentRow], "\n%%%\n");
     *currentRow += 1;
     *startRow = *currentRow;
     *nPage +=1;
