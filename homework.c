@@ -50,7 +50,7 @@ int main(int argc, char ** argv) {
     int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
     *nColumn = 3;
-    *linesPerColumn = 30;
+    *linesPerColumn = 2;
     *columnWidth = 25;
     *distanceColumn = 7;
 
@@ -162,9 +162,9 @@ void justify(int *nwords, int* currentRow, char** array, char **outputText, int*
     }
     */
     //strcpy(outputText[*row], array[0]);
-    char* str = malloc(1000* sizeof(*str));                     //100
-    strcpy(str, strcat(outputText[*currentRow], array[0]));
-
+    //char* str = malloc(1000* sizeof(*str));                     //100
+    //strcpy(str, strcat(outputText[*currentRow], array[0]));
+    strcat(outputText[*currentRow], array[0]);
     for(int i = 1; i< *nwords; i++){
         addSpace(outputText, currentRow, array_spaces[i - 1]);
         strcat(outputText[*currentRow], array[i]);
@@ -204,12 +204,14 @@ void noJustified(int *nwords, int* currentRow, char** array, char** outputText, 
     int count = 0;
     int lenParole = 0;
     for (int i = 0; i < *nwords; i++) {
-        char* str = malloc(100* sizeof(*str));
+        //char* str = malloc(100* sizeof(*str));
         lenParole += len(array[i]);
-        strcpy(str, strcat(outputText[*currentRow], array[i]));
+        //strcpy(str, strcat(outputText[*currentRow], array[i]));
+        strcat(outputText[*currentRow], array[i]);
         count ++;                
         if (count < *nwords) {
-            strcpy(outputText[*currentRow], strcat(str, " "));
+            //strcpy(outputText[*currentRow], strcat(str, " "));
+            strcat(outputText[*currentRow], " ");
         }
     }
     
@@ -239,18 +241,21 @@ void noJustified(int *nwords, int* currentRow, char** array, char** outputText, 
 }
 
 void emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow, int*linesPerColumn, int* startRow, int* total_length, int* nPage){
-    char* str = malloc(100* sizeof(*str));
-    strcpy(str, strcat(outputText[*currentRow], " "));
+    //char* str = malloc(100* sizeof(*str));
+    //strcpy(str, strcat(outputText[*currentRow], " "));
     if (*countColumn < *ncolumn - 1) {
         int totSpace = *columnWidth + *distanceColumn;
-        for (int i = 0; i < totSpace - 1; i++) {
-            strcpy(outputText[*currentRow], strcat(str," "));
+        for (int i = 0; i < totSpace ; i++) {
+            //strcpy(outputText[*currentRow], strcat(str," "));
+            strcat(outputText[*currentRow], " ");
         }
     }
     else {
         for (int i = 0; i < *columnWidth; i++) {
             //strcpy(outputText[*row], " ");
-            strcpy(outputText[*currentRow], strcat(str," "));
+            //strcpy(outputText[*currentRow], strcat(str," "));
+            strcat(outputText[*currentRow], " ");
+
             //strcpy(outputText[*row], strcat(outputText[*row]," "));
         }
     }
@@ -395,11 +400,13 @@ void emptySpaceColumns(int spazio_colonne, int riga, int colonna, char** matrice
     }
 }
 
-void addSpace(char** outputTxt, int* currentRow, int spazi){
-    char* str1 = malloc(1000* sizeof(*str1));                     //100
-    strcpy(str1, strcat(outputTxt[*currentRow], " "));
-    for(int i = 0; i < spazi-1; i++){
+void addSpace(char** outputText, int* currentRow, int spazi){
+    //char* str1 = malloc(1000* sizeof(*str1));                     //100
+    //strcpy(str1, strcat(outputTxt[*currentRow], " "));
+    for(int i = 0; i < spazi; i++){
         //strcat(str[*row], " ");
-        strcpy(outputTxt[*currentRow], strcat(str1, " "));
+        //strcpy(outputTxt[*currentRow], strcat(str1, " "));
+        strcat(outputText[*currentRow], " ");
+        
     }
 }
