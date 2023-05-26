@@ -1,73 +1,87 @@
-�N�
-Modulo.          Progetto       colonne   per  pagina  su       di       spazio;       la
-(Homework).                     cui     distribuire    il       sillabazione           di
-                                testo;   il   numero   di       eventuali  parole  troppo
-L’obiettivo             è       linee  per  ogni colonna;       lunghe non è necessaria. 
-implementare           un       larghezza     di     ogni                                
-programma      C      che       colonna     (numero    di       Requisiti   generali  del
-trasformi   un  testo  in       caratteri  per  colonna);       progetto:    ogni    file
-italiano  da  una colonna       la  distanza in caratteri       .c/.h  dovrà  essere  ben
-a   più  colonne  su  più       tra  una colonna di testo       commentato:    per   ogni
-pagine  (come  ad es. per       e l’altra.                      funzione       commentare
-una       pagina       di                                       brevemente   i  parametri
-quotidiano).         Sono       Dati    in    uscita    e       di  ingresso/uscita  e il
-richieste   due  versioni       requisiti:   un  file  di       suo         funzionamento
-del   programma:   una  a       testo   ASCII  contenente       generale;  nel  corpo  di
-singolo  processo  e  una       il    testo    di   input       ogni  funzione commentare
-multi-processo        con       incolonnato  e impaginato       le  linee  di  codice più
-almeno    tre    processi       secondo    i    parametri       importanti;   fornire  un
-concorrenti.                    espressi  dall’utente. Le       makefile   per  compilare
-                                pagine    sono   separate       il    progetto   con   un
-Dati    in   ingresso   e       dalla   stringa  “\n  %%%       semplice   make;  fornire
-requisiti:   un  file  di       \n”;   ogni  paragrafo  è       un  file  di testo README
-testo     in     codifica       separato   da  una  linea       con       una       breve
-Unicode           (UTF-8)       vuota;  la  prima colonna       spiegazione    dei   file
-contenente  un  testo  in       di  testo  è  a sinistra;       inclusi    e   un   breve
-italiano  strutturato  in       tutte  le  righe,  tranne       manuale     utente;    la
-paragrafi   separati   da       l’ultima,     di     ogni       versione   multi-processo
-una  o  più  linee  vuote       paragrafo        dovranno       del    programma    dovrà
-(stringa  contenente solo       essere    allineate    ad       essere    costituita   da
-il  carattere ‘\n’). Ogni       entrambi  i margini della       almeno    tre    processi
-paragrafo   è  costituito       colonna;   l’ultima  riga       concorrenti            ed
-da  una  o  più  stringhe       di  ogni paragrafo è solo       intercomunicanti:     uno
-terminate   da  ‘\n’  (il       allineata  a sinistra; le       per  leggere  il  file di
-testo   in   ingresso   è       parole   in   una   linea       ingresso,  uno per creare
-tutto    su    una   sola       dovranno  essere separate       le   colonne,  ed  infine
+�Ab
+Modulo.          Progetto       la  distanza in caratteri       ogni  funzione commentare
+(Homework).                     tra  una colonna di testo       le  linee  di  codice più
+                                e l’altra.                      importanti;   fornire  un
+L’obiettivo             è                                       makefile   per  compilare
+implementare           un       Dati    in    uscita    e       il    progetto   con   un
+programma      C      che       requisiti:   un  file  di       semplice   make;  fornire
+trasformi   un  testo  in       testo   ASCII  contenente       un  file  di testo README
+italiano  da  una colonna       il    testo    di   input       con       una       breve
+a   più  colonne  su  più       incolonnato  e impaginato       spiegazione    dei   file
+pagine  (come  ad es. per       secondo    i    parametri       inclusi    e   un   breve
+una       pagina       di       espressi  dall’utente. Le       manuale     utente;    la
+quotidiano).         Sono       pagine    sono   separate       versione   multi-processo
+richieste   due  versioni       dalla   stringa  “\n  %%%       del    programma    dovrà
+del   programma:   una  a       \n”;   ogni  paragrafo  è       essere    costituita   da
+singolo  processo  e  una       separato   da  una  linea       almeno    tre    processi
+multi-processo        con       vuota;  la  prima colonna       concorrenti            ed
+almeno    tre    processi       di  testo  è  a sinistra;       intercomunicanti:     uno
+concorrenti.                    tutte  le  righe,  tranne       per  leggere  il  file di
+                                l’ultima,     di     ogni       ingresso,  uno per creare
+Dati    in   ingresso   e       paragrafo        dovranno       le   colonne,  ed  infine
+requisiti:   un  file  di       essere    allineate    ad       uno  per la scrittura del
+testo     in     codifica       entrambi  i margini della       file      di      output.
+Unicode           (UTF-8)       colonna;   l’ultima  riga       (Ulteriori   suddivisioni
+contenente  un  testo  in       di  ogni paragrafo è solo       del  carico  di lavoro in
+italiano  strutturato  in       allineata  a sinistra; le       più  di tre processi sono
+paragrafi   separati   da       parole   in   una   linea       ammesse.)  NON  è ammesso
+una  o  più  linee  vuote       dovranno  essere separate       l’uso     di     librerie
+(stringa  contenente solo       da  almeno  un  carattere       esterne  con funzioni per
+il  carattere ‘\n’). Ogni       di       spazio;       la       la    manipolazione    di
+paragrafo   è  costituito       sillabazione           di       stringhe  o testo che non
+da  una  o  più  stringhe       eventuali  parole  troppo       siano   quelle   standard
+terminate   da  ‘\n’  (il       lunghe non è necessaria.        del   C.   Eccezione:   è
+testo   in   ingresso   è                                       ammesso      l’uso     di
+tutto    su    una   sola       Requisiti   generali  del       librerie    esterne   per
+colonna);  il  numero  di       progetto:    ogni    file       l’analisi  delle  opzioni
+colonne   per  pagina  su       .c/.h  dovrà  essere  ben       della  linea  di  comando
+cui     distribuire    il       commentato:    per   ogni       per il vostro programma. 
+testo;   il   numero   di       funzione       commentare                                
+linee  per  ogni colonna;       brevemente   i  parametri       Suggerimenti:  usare nomi
+larghezza     di     ogni       di  ingresso/uscita  e il       di  variabili  e funzioni
+colonna     (numero    di       suo         funzionamento       corrispondenti   al  loro
 
 %%%
 
-uno  per la scrittura del       concentratevi       prima       
-file      di      output.       sulla   correttezza   dei       
-(Ulteriori   suddivisioni       programmi,           cioè       
-del  carico  di lavoro in       assicuratevi    con   più       
-più  di tre processi sono       testi   di  input  che  i       
-ammesse.)  NON  è ammesso       programmi   producano  un       
-l’uso     di     librerie       output        incolonnato       
-esterne  con funzioni per       secondo  le richieste. Se       
-la    manipolazione    di       avete  tempo  alla  fine,       
-stringhe  o testo che non       ottimizzate   il   codice       
-siano   quelle   standard       per  uso  di CPU e/o RAM,       
-del   C.   Eccezione:   è       mantenendone           la       
-ammesso      l’uso     di       correttezza;       potete       
-librerie    esterne   per       usare  wc  per verificare       
-l’analisi  delle  opzioni       che   il   numero   delle       
-della  linea  di  comando       parole  in  ingresso e in       
-per il vostro programma.        uscita     dei     vostri       
-                                programmi  sia  lo stesso       
-Suggerimenti:  usare nomi       (usando  stdin  e  stdout       
-di  variabili  e funzioni       nel   vostri   programmi,       
-corrispondenti   al  loro       questo  semplice  test si       
-significato/utilizzo;           riduce  ad una sola linea       
-usare  stdin e stdout per       di       comando      con       
-rispettivamente  il testo       l’operatore  pipe | della       
-in  ingresso e in uscita;       shell).                         
-sviluppare    prima    la                                       
-versiosne   mono-processo       Il  punteggio  massimo  è       
-del     programma,    poi       6/30,   articolato   come       
-quella    multi-processo;       segue:   correttezza  del       
-per    l’analisi    della       programma         (3/30);       
-linea   di   comando   si       architettura          del       
-consiglia  getopt, di uso       programma    e   commenti       
-molto  semplice  e che fa       (2/30);    usabilità    e       
-parte  della libreria GNU       istruzioni         utente       
-standard      del      C;       (1/30).                         
+significato/utilizzo;           segue:   correttezza  del       
+usare  stdin e stdout per       programma         (3/30);       
+rispettivamente  il testo       architettura          del       
+in  ingresso e in uscita;       programma    e   commenti       
+sviluppare    prima    la       (2/30);    usabilità    e       
+versiosne   mono-processo       istruzioni         utente       
+del     programma,    poi       (1/30).                         
+quella    multi-processo;       
+per    l’analisi    della       
+linea   di   comando   si       
+consiglia  getopt, di uso       
+molto  semplice  e che fa       
+parte  della libreria GNU       
+standard      del      C;       
+concentratevi       prima       
+sulla   correttezza   dei       
+programmi,           cioè       
+assicuratevi    con   più       
+testi   di  input  che  i       
+programmi   producano  un       
+output        incolonnato       
+secondo  le richieste. Se       
+avete  tempo  alla  fine,       
+ottimizzate   il   codice       
+per  uso  di CPU e/o RAM,       
+mantenendone           la       
+correttezza;       potete       
+usare  wc  per verificare       
+che   il   numero   delle       
+parole  in  ingresso e in       
+uscita     dei     vostri       
+programmi  sia  lo stesso       
+(usando  stdin  e  stdout       
+nel   vostri   programmi,       
+questo  semplice  test si       
+riduce  ad una sola linea       
+di       comando      con       
+l’operatore  pipe | della       
+shell).                         
+                                
+Il  punteggio  massimo  è       
+6/30,   articolato   come       

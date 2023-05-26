@@ -43,24 +43,25 @@ char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* dista
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int*nPage); 
 
 
-int main(int argc, char ** argv) {
-    char* nameFile = argv[0];
-    char* pathText = argv[1];
+int main(int argc, char* argv[]) {
+
     //Settings
+
+    //char* pathText = malloc(sizeof(*pathText));
     int* nColumn = malloc(sizeof(int));
-    int* linesPerColumn = malloc(sizeof(int));   
-    int* columnWidth = malloc(sizeof(int));     
+    int* linesPerColumn = malloc(sizeof(int));    //6
+    int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
 
+    char* path = argv[1];
+    //char* pathText = argv[1];
     *nColumn = atoi(argv[2]);
     *linesPerColumn = atoi(argv[3]);
     *columnWidth = atoi(argv[4]);
     *distanceColumn = atoi(argv[5]);
 
     //Input text
-    char cwd[1024];
-    getcwd(cwd, sizeof(cwd));
-    char* pathFile = getPath("Input2.txt");
+    char* pathFile = getPath(path);
     char* input_text = readFile(pathFile);
     //Total length
     int* pageLength = malloc(sizeof(int));
@@ -110,15 +111,19 @@ int main(int argc, char ** argv) {
                 strcpy(array[0], token);  
                 *nwords = 1;
             }
+            if( *nPage == 1 && *countColumn == 2 && *countRow == 41 ) {
+                printf("QUI\n");
+                printArray(outputText, linesPerColumn, nPage);
+            }
         }
 
     }
-    char* token = array[*nwords-1];
-    char* occurrence = strstr(token, "\r\n");
-    int lenToken1 = occurrence - token;
+    char* token0 = array[*nwords-1];
+    char* occurrence = strstr(token0, "\r\n");
+    int lenToken1 = occurrence - token0;
     char* token1 = malloc(lenToken1 * sizeof(char));
     //memcpy(token1, token, lenToken1);
-    strncpy(token1, token, lenToken1);
+    strncpy(token1, token0, lenToken1);
     strcpy(array[*nwords-1], token1);  
     outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
                                 countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
@@ -176,6 +181,7 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
         addSpace(outputText, currentRow, spazi);
     }
     outputText = newLine(outputText, currentRow, countRow, startRow, linesPerColumn, countColumn, ncolumn, total_length, nPage);
+    *nwords = 0;
     return outputText;
 }
 

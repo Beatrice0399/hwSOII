@@ -1,3 +1,3 @@
 main:
-	gcc homework.c -o homework.o
-	./homework.o 3 40 27 4
+	gcc main.c -o main
+	./main input.txt 3 42 27 4
