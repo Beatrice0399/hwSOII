@@ -58,7 +58,7 @@ int main(int argc, char ** argv) {
     int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
     *nColumn = 3;
-    *linesPerColumn = 30;
+    *linesPerColumn = 40;
     *columnWidth = 25;
     *distanceColumn = 7;
 
@@ -100,11 +100,20 @@ int main(int argc, char ** argv) {
             *nwords += 1;
         }
         else {
-            outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn,
-                                    countRow, linesPerColumn, startRow, columnWidth, pageLength, nPage); 
-            *conspazi = lenWord + 1;         
-            strcpy(array[0], token);  
-            *nwords = 1;
+            if (*nwords == 1) {
+                *conspazi -=1;
+                outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+                *conspazi = lenWord + 1;         
+                strcpy(array[0], token);  
+                *nwords = 1;
+            }
+            else {
+                outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn,
+                                        countRow, linesPerColumn, startRow, columnWidth, pageLength, nPage); 
+                *conspazi = lenWord + 1;         
+                strcpy(array[0], token);  
+                *nwords = 1;
+            }
         }
     }
     outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
@@ -151,7 +160,6 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
             strcat(outputText[*currentRow], " ");
         }
     }
-    
     if(*countColumn < *ncolumn -1 ) {
         int spazi = *columnWidth - *conSpazi + *distanceColumn;
         addSpace(outputText, currentRow, spazi);
@@ -224,16 +232,21 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
         //printArray(outputText, linesPerColumn, startRow);
     }
     //altrimenti l'ultima parola del paragrafo viene scritta nella riga successiva e non viene allineata a sinistra
-    else {     
-        outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn, countRow, 
-        linesPerColumn, startRow, columnWidth, pageLength, nPage);
-        *nwords = 0;
-        strcpy(array[*nwords], token1);
-        *nwords +=1;
-        *conspazi = lenToken1; 
-        outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-        if (*currentRow != *startRow) {
-            outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
+    else {   
+        if (*nwords == 1) {
+            noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi+1, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+        }  
+        else {
+            outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn, countRow, 
+            linesPerColumn, startRow, columnWidth, pageLength, nPage);
+            *nwords = 0;
+            strcpy(array[*nwords], token1);
+            *nwords +=1;
+            *conspazi = lenToken1; 
+            outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+            if (*currentRow != *startRow) {
+                outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
+            }
         }
     }
     *nwords = 1;
@@ -332,15 +345,22 @@ char* getPath(const char* txt_path){
 // per calcolare la lunghezza della singola parola
 int len(char* word) {
     double lenW = 0;
-        for (int i = 0; i < strlen(word); i ++)
+    int value = 0;
+        for (int i = 0; word[i] != '\0'; i ++)
         {
-            char ch = word[i];
-            int val = word[i];
-            if (val >= 0)
-            {
-                lenW ++;
+            value = (int) word[i];
+            
+            if(value == -17 | value == -69 | value == -65){
             }
-            else { lenW = lenW + 0.5; }
+            else if(value == 92){
+                lenW += 0.5;
+            }
+            else if(value < 0){
+                lenW += 0.5;
+            }
+            else{
+                lenW += 1;
+            }
         }
     return (int) lenW;
 }
