@@ -28,7 +28,7 @@ char** justify(int *nwords, int* currentRow, char** array, char **outputText, in
 char** newParagraph(char** outputText, char** array, char* token, char* occurrence, int* conspazi, int* columnWidth, int* nwords, 
     int* currentRow, int* distanceColumn, int*nColumn, int* countColumn, int* linesPerColumn, int* countRow, int* startRow, int* pageLength, int* nPage); 
 
-void writeText(char** array);
+void writeText(char** array, int* linesPerColumn, int* newPage);
 
 void inizializza(char** array, int* size, int* length);
 
@@ -58,7 +58,7 @@ int main(int argc, char ** argv) {
     int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
     *nColumn = 3;
-    *linesPerColumn = 40;
+    *linesPerColumn = 35;
     *columnWidth = 25;
     *distanceColumn = 7;
 
@@ -85,7 +85,7 @@ int main(int argc, char ** argv) {
     int* nPage = malloc(sizeof(int));
     int* conspazi = malloc(sizeof(int));
     *nPage = 1;
-
+    //char* tokenFinale = malloc(sizeof(*tokenFinale));
     for (char* token = strtok(input_text, " "); token != NULL; token = strtok(NULL, " ")) {
         int lenWord = len(token);
         char* occurrence = strstr(token, "\r\n\r\n");
@@ -94,7 +94,7 @@ int main(int argc, char ** argv) {
             outputText = newParagraph(outputText, array, token, occurrence, conspazi, columnWidth, nwords, currentRow, distanceColumn, nColumn, 
                             countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
         }
-        else if ( (*conspazi+lenWord) <= *columnWidth) {    
+        else if ( (*conspazi+lenWord) < *columnWidth) {    
             *conspazi = *conspazi + lenWord + 1;
             strcpy(array[*nwords], token);
             *nwords += 1;
@@ -102,7 +102,8 @@ int main(int argc, char ** argv) {
         else {
             if (*nwords == 1) {
                 *conspazi -=1;
-                outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+                outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, 
+                                            nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
                 *conspazi = lenWord + 1;         
                 strcpy(array[0], token);  
                 *nwords = 1;
@@ -115,11 +116,19 @@ int main(int argc, char ** argv) {
                 *nwords = 1;
             }
         }
-    }
-    outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-    //printArray(outputText, countRow);
-    printArray(outputText, linesPerColumn, nPage);
 
+    }
+    char* token = array[*nwords-1];
+    char* occurrence = strstr(token, "\r\n");
+    int lenToken1 = occurrence - token;
+    char* token1 = malloc(lenToken1 * sizeof(char));
+    //memcpy(token1, token, lenToken1);
+    strncpy(token1, token, lenToken1);
+    strcpy(array[*nwords-1], token1);  
+    outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
+                                countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+    printArray(outputText, linesPerColumn, nPage);
+    writeText(outputText, linesPerColumn, nPage);
     return 0;
 }
 
@@ -154,18 +163,21 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
     int lenParole = 0;
     for (int i = 0; i < *nwords; i++) {
         lenParole += len(array[i]);
+        char* prova = malloc(sizeof(*prova));
+        strcpy(prova, array[i]);
         strcat(outputText[*currentRow], array[i]);
         count ++;                
         if (count < *nwords) {
             strcat(outputText[*currentRow], " ");
+            lenParole +=1;
         }
     }
     if(*countColumn < *ncolumn -1 ) {
-        int spazi = *columnWidth - *conSpazi + *distanceColumn;
+        int spazi = *columnWidth - lenParole + *distanceColumn ;   //QUI  
         addSpace(outputText, currentRow, spazi);
     }
     else {
-        int spazi = *columnWidth - *conSpazi;
+        int spazi = *columnWidth - lenParole;
         addSpace(outputText, currentRow, spazi);
     }
     outputText = newLine(outputText, currentRow, countRow, startRow, linesPerColumn, countColumn, ncolumn, total_length, nPage);
@@ -194,7 +206,7 @@ char** newLine(char** outputText, int* currentRow, int* countRow, int* startRow,
     return outputText;
 }
 
-//funzione per scrivere una riga vuoto, riempita da spazi, usata per creare i nuovi paragrafi
+//funzione per scrivere una riga vuota, riempita da spazi, usata per creare i nuovi paragrafi
 char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow, int*linesPerColumn, int* startRow, int* total_length, int* nPage){
     if (*countColumn < *ncolumn - 1) {
         int totSpace = *columnWidth + *distanceColumn;
@@ -215,39 +227,49 @@ char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* dista
 char** newParagraph(char** outputText, char** array, char* token, char* occurrence, int* conspazi, int* columnWidth, int* nwords, 
     int* currentRow, int* distanceColumn, int*nColumn, int* countColumn, int* linesPerColumn, int* countRow, int* startRow, int* pageLength, int* nPage) 
 {
-    int lenToken1 = len(token) - len(occurrence);
-    char* token1 = malloc(sizeof(token1));
-    strncpy(token1, token, lenToken1);
-    char* token2 = malloc(sizeof(token2));
-    strncpy(token2, &occurrence[4], len(token)-1 );
+    int lenToken1 = occurrence - token;
+    int lenToken2 = len(token) - lenToken1 - 2;
+    char* token1 = malloc(lenToken1 * sizeof(char));
+    char* token2 = malloc(lenToken2 * sizeof(char));
+    memcpy(token1, token, lenToken1);
+    memcpy(token2, occurrence + 4, lenToken2);
     //se l'ultima parola del paragrafo entra nella riga, allora la riga viene scritta senza essere allineata al bordo sinistro
-    if ( (*conspazi+lenToken1) <= *columnWidth) {   
+    if ( (*conspazi+lenToken1) < *columnWidth) {   
         *conspazi = *conspazi + lenToken1;
         strcpy(array[*nwords], token1);
         *nwords += 1;
-        outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-        if (*currentRow != *startRow) {
-            outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
-        }
-        //printArray(outputText, linesPerColumn, startRow);
+        outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
+                                    countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
     }
     //altrimenti l'ultima parola del paragrafo viene scritta nella riga successiva e non viene allineata a sinistra
     else {   
         if (*nwords == 1) {
-            noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi+1, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-        }  
+            *conspazi -=1;
+            noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
+                            countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+            //DA QUI
+            *nwords = 0;
+            strcpy(array[*nwords], token1);
+            *nwords +=1;
+            *conspazi = lenToken1;   
+            outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
+                                        countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+            //A QUI    
+        }
         else {
             outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn, countRow, 
-            linesPerColumn, startRow, columnWidth, pageLength, nPage);
+                                    linesPerColumn, startRow, columnWidth, pageLength, nPage);
             *nwords = 0;
             strcpy(array[*nwords], token1);
             *nwords +=1;
             *conspazi = lenToken1; 
-            outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-            if (*currentRow != *startRow) {
-                outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, linesPerColumn, startRow, pageLength, nPage);
-            }
+            outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
+                                        countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
         }
+    }
+    if (*currentRow != *startRow) {
+            outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, 
+                                    linesPerColumn, startRow, pageLength, nPage);
     }
     *nwords = 1;
     strcpy(array[0], token2);       //Prima parola del nuovo paragrafo
@@ -298,14 +320,22 @@ void inizializza(char** array, int* size, int* length) {
             }
 }
 
-void writeText(char** outputText) {
+void writeText(char** outputText, int* linesPerColumn, int* nPage) {
     FILE *fp = fopen("output.txt", "w+"); 
     if (fp == NULL){ 
         printf("file non trovato");
         exit(-1); 
     }
-    for (int i = 0; i <15; i++) {
-        //fprintf(fp, outputText[i]);
+    int p = 0;
+    if (*nPage == 1) {
+        p = *linesPerColumn; 
+    }
+    else {
+        p = (*linesPerColumn+1)**nPage-1; 
+    }
+    for (int i = 0; i < p; i++) {
+        fprintf(fp, "%s", outputText[i]);
+        fprintf(fp, "\n");
     }
 }
 
