@@ -1,87 +1,63 @@
-�Ab
-Modulo.          Progetto       la  distanza in caratteri       ogni  funzione commentare
-(Homework).                     tra  una colonna di testo       le  linee  di  codice più
-                                e l’altra.                      importanti;   fornire  un
-L’obiettivo             è                                       makefile   per  compilare
-implementare           un       Dati    in    uscita    e       il    progetto   con   un
-programma      C      che       requisiti:   un  file  di       semplice   make;  fornire
-trasformi   un  testo  in       testo   ASCII  contenente       un  file  di testo README
-italiano  da  una colonna       il    testo    di   input       con       una       breve
-a   più  colonne  su  più       incolonnato  e impaginato       spiegazione    dei   file
-pagine  (come  ad es. per       secondo    i    parametri       inclusi    e   un   breve
-una       pagina       di       espressi  dall’utente. Le       manuale     utente;    la
-quotidiano).         Sono       pagine    sono   separate       versione   multi-processo
-richieste   due  versioni       dalla   stringa  “\n  %%%       del    programma    dovrà
-del   programma:   una  a       \n”;   ogni  paragrafo  è       essere    costituita   da
-singolo  processo  e  una       separato   da  una  linea       almeno    tre    processi
-multi-processo        con       vuota;  la  prima colonna       concorrenti            ed
-almeno    tre    processi       di  testo  è  a sinistra;       intercomunicanti:     uno
-concorrenti.                    tutte  le  righe,  tranne       per  leggere  il  file di
-                                l’ultima,     di     ogni       ingresso,  uno per creare
-Dati    in   ingresso   e       paragrafo        dovranno       le   colonne,  ed  infine
-requisiti:   un  file  di       essere    allineate    ad       uno  per la scrittura del
-testo     in     codifica       entrambi  i margini della       file      di      output.
-Unicode           (UTF-8)       colonna;   l’ultima  riga       (Ulteriori   suddivisioni
-contenente  un  testo  in       di  ogni paragrafo è solo       del  carico  di lavoro in
-italiano  strutturato  in       allineata  a sinistra; le       più  di tre processi sono
-paragrafi   separati   da       parole   in   una   linea       ammesse.)  NON  è ammesso
-una  o  più  linee  vuote       dovranno  essere separate       l’uso     di     librerie
-(stringa  contenente solo       da  almeno  un  carattere       esterne  con funzioni per
-il  carattere ‘\n’). Ogni       di       spazio;       la       la    manipolazione    di
-paragrafo   è  costituito       sillabazione           di       stringhe  o testo che non
-da  una  o  più  stringhe       eventuali  parole  troppo       siano   quelle   standard
-terminate   da  ‘\n’  (il       lunghe non è necessaria.        del   C.   Eccezione:   è
-testo   in   ingresso   è                                       ammesso      l’uso     di
-tutto    su    una   sola       Requisiti   generali  del       librerie    esterne   per
-colonna);  il  numero  di       progetto:    ogni    file       l’analisi  delle  opzioni
-colonne   per  pagina  su       .c/.h  dovrà  essere  ben       della  linea  di  comando
-cui     distribuire    il       commentato:    per   ogni       per il vostro programma. 
-testo;   il   numero   di       funzione       commentare                                
-linee  per  ogni colonna;       brevemente   i  parametri       Suggerimenti:  usare nomi
-larghezza     di     ogni       di  ingresso/uscita  e il       di  variabili  e funzioni
-colonna     (numero    di       suo         funzionamento       corrispondenti   al  loro
-
+Sistemi     Operativi     II    tre processi concorrenti.       sola  colonna); il numero di
+Modulo.             Progetto                                    colonne  per  pagina  su cui
+(Homework).                     Dati     in    ingresso    e    distribuire   il  testo;  il
+                                requisiti:  un file di testo    numero  di  linee  per  ogni
+L’obiettivo  è  implementare    in  codifica Unicode (UTF-8)    colonna;  larghezza  di ogni
+un     programma    C    che    contenente   un   testo   in    colonna      (numero      di
+trasformi    un   testo   in    italiano    strutturato   in    caratteri  per  colonna); la
+italiano  da  una  colonna a    paragrafi  separati da una o    distanza  in  caratteri  tra
+più  colonne  su  più pagine    più   linee  vuote  (stringa    una   colonna   di  testo  e
+(come  ad es. per una pagina    contenente      solo      il    l’altra.                    
+di     quotidiano).     Sono    carattere     ‘\n’).    Ogni                                
+richieste  due  versioni del    paragrafo  è  costituito  da    Dati  in uscita e requisiti:
+programma:   una  a  singolo    una     o    più    stringhe    un   file   di  testo  ASCII
+processo        e        una    terminate  da ‘\n’ (il testo    contenente   il   testo   di
+multi-processo   con  almeno    in  ingresso  è tutto su una    input      incolonnato     e
 %%%
-
-significato/utilizzo;           segue:   correttezza  del       
-usare  stdin e stdout per       programma         (3/30);       
-rispettivamente  il testo       architettura          del       
-in  ingresso e in uscita;       programma    e   commenti       
-sviluppare    prima    la       (2/30);    usabilità    e       
-versiosne   mono-processo       istruzioni         utente       
-del     programma,    poi       (1/30).                         
-quella    multi-processo;       
-per    l’analisi    della       
-linea   di   comando   si       
-consiglia  getopt, di uso       
-molto  semplice  e che fa       
-parte  della libreria GNU       
-standard      del      C;       
-concentratevi       prima       
-sulla   correttezza   dei       
-programmi,           cioè       
-assicuratevi    con   più       
-testi   di  input  che  i       
-programmi   producano  un       
-output        incolonnato       
-secondo  le richieste. Se       
-avete  tempo  alla  fine,       
-ottimizzate   il   codice       
-per  uso  di CPU e/o RAM,       
-mantenendone           la       
-correttezza;       potete       
-usare  wc  per verificare       
-che   il   numero   delle       
-parole  in  ingresso e in       
-uscita     dei     vostri       
-programmi  sia  lo stesso       
-(usando  stdin  e  stdout       
-nel   vostri   programmi,       
-questo  semplice  test si       
-riduce  ad una sola linea       
-di       comando      con       
-l’operatore  pipe | della       
+impaginato     secondo     i    parole    in    una    linea    corpo   di   ogni   funzione
+parametri           espressi    dovranno  essere separate da    commentare   le   linee   di
+dall’utente.  Le pagine sono    almeno   un   carattere   di    codice    più    importanti;
+separate  dalla  stringa “\n    spazio;  la  sillabazione di    fornire   un   makefile  per
+%%%  \n”;  ogni  paragrafo è    eventuali    parole   troppo    compilare  il  progetto  con
+separato    da   una   linea    lunghe non è necessaria.        un  semplice  make;  fornire
+vuota;  la  prima colonna di                                    un  file di testo README con
+testo  è  a  sinistra; tutte    Requisiti    generali    del    una  breve  spiegazione  dei
+le  righe,  tranne l’ultima,    progetto:  ogni  file  .c/.h    file   inclusi  e  un  breve
+di  ogni  paragrafo dovranno    dovrà       essere       ben    manuale  utente; la versione
+essere      allineate     ad    commentato:     per     ogni    multi-processo           del
+entrambi   i  margini  della    funzione          commentare    programma    dovrà    essere
+colonna;  l’ultima  riga  di    brevemente  i  parametri  di    costituita   da  almeno  tre
+ogni    paragrafo   è   solo    ingresso/uscita   e  il  suo    processi    concorrenti   ed
+allineata   a  sinistra;  le    funzionamento  generale; nel    intercomunicanti:   uno  per
+%%%
+leggere     il    file    di    opzioni   della   linea   di    l’analisi   della  linea  di
+ingresso,  uno per creare le    comando    per   il   vostro    comando     si     consiglia
+colonne,  ed  infine uno per    programma.                      getopt,    di    uso   molto
+la  scrittura  del  file  di                                    semplice   e  che  fa  parte
+output.           (Ulteriori    Suggerimenti:  usare nomi di    della  libreria GNU standard
+suddivisioni  del  carico di    variabili     e     funzioni    del  C;  concentratevi prima
+lavoro   in   più   di   tre    corrispondenti    al    loro    sulla     correttezza    dei
+processi  sono ammesse.) NON    significato/utilizzo;  usare    programmi,              cioè
+è  ammesso l’uso di librerie    stdin     e    stdout    per    assicuratevi  con  più testi
+esterne  con funzioni per la    rispettivamente  il testo in    di  input  che  i  programmi
+manipolazione  di stringhe o    ingresso    e   in   uscita;    producano      un     output
+testo  che  non siano quelle    sviluppare      prima     la    incolonnato    secondo    le
+standard  del  C. Eccezione:    versiosne  mono-processo del    richieste.  Se  avete  tempo
+è  ammesso l’uso di librerie    programma,     poi    quella    alla  fine,  ottimizzate  il
+esterne  per l’analisi delle    multi-processo;          per    codice  per  uso  di CPU e/o
+%%%
+RAM,     mantenendone     la    6/30,     articolato    come    
+correttezza;   potete  usare    segue:    correttezza    del    
+wc  per  verificare  che  il    programma            (3/30);    
+numero   delle   parole   in    architettura  del  programma    
+ingresso  e  in  uscita  dei    e      commenti      (2/30);    
+vostri   programmi   sia  lo    usabilità    e    istruzioni    
+stesso   (usando   stdin   e    utente (1/30).                  
+stdout       nel      vostri    
+programmi,  questo  semplice    
+test  si  riduce ad una sola    
+linea    di    comando   con    
+l’operatore   pipe  |  della    
 shell).                         
                                 
-Il  punteggio  massimo  è       
-6/30,   articolato   come       
+Il   punteggio   massimo   è    

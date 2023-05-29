@@ -56,11 +56,10 @@ int main(int argc, char* argv[]) {
     *linesPerColumn = atoi(argv[3]);
     *columnWidth = atoi(argv[4]);
     *distanceColumn = atoi(argv[5]);
-     printf("ECCOMI\n\n");
+    printf("Starting the formatting...\n");
     //Input text
     char* pathFile = getPath(txt_path);
     char* input_text = readFile(pathFile);
-     printf("ECCOMI\n\n");
     //Total length
     int* pageLength = malloc(sizeof(int));
     *pageLength = lenPage(*nColumn, *columnWidth, *distanceColumn);
@@ -71,7 +70,9 @@ int main(int argc, char* argv[]) {
     char** outputText = malloc(*linesPerColumn*sizeof(*outputText));
     inizializza(outputText, linesPerColumn, pageLength);
 
-    int* currentRow = malloc(sizeof(int));             //per scrivere sull'array di output
+    printf("Processing...\n");
+
+    int* currentRow = malloc(sizeof(int));      //per scrivere sull'array di output
     int* nwords = malloc(sizeof(int));          //per contare il numero di parole che entrano su una riga di una colonna
     int* countRow = malloc(sizeof(int));        //per tenere traccia delle righe scritte in una colonna
     int* countColumn = malloc(sizeof(int));     //per tenere traccia del numero di colonne scritte
@@ -109,10 +110,6 @@ int main(int argc, char* argv[]) {
                 strcpy(array[0], token);  
                 *nwords = 1;
             }
-            if( *nPage == 1 && *countColumn == 2 && *countRow == 41 ) {
-                printf("QUI\n");
-                printArray(outputText, linesPerColumn, nPage);
-            }
         }
 
     }
@@ -125,8 +122,9 @@ int main(int argc, char* argv[]) {
     strcpy(array[*nwords-1], token1);  
     outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
                                 countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-    printArray(outputText, linesPerColumn, nPage);
+    //printArray(outputText, linesPerColumn, nPage);
     writeText(outputText, linesPerColumn, nPage);
+    printf("Formatting ended...\n");
     return 0;
 }
 
@@ -142,6 +140,9 @@ char** justify(int *nwords, int* currentRow, char** array, char **outputText, in
     int* array_spaces = malloc(*n_spaces*sizeof(*array_spaces));
     int remaining_spaces = * columnWidth - n_of_char;
     spaceWord(array_spaces, n_spaces, remaining_spaces);
+    if(*countColumn == 0){
+        outputText[*currentRow] = malloc(sizeof(char*) * *total_length);
+    }
     strcat(outputText[*currentRow], array[0]);
     for(int i = 1; i< *nwords; i++){
         addSpace(outputText, currentRow, array_spaces[i - 1]);
@@ -159,6 +160,9 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
             int* linesPerColumn, int* countRow, int* startRow, int* total_length, int* nPage){
     int count = 0;
     int lenParole = 0;
+    if(*countColumn == 0){
+        outputText[*currentRow] = malloc(sizeof(char*) * (*total_length));
+    }
     for (int i = 0; i < *nwords; i++) {
         lenParole += len(array[i]);
         char* prova = malloc(sizeof(*prova));
@@ -207,6 +211,10 @@ char** newLine(char** outputText, int* currentRow, int* countRow, int* startRow,
 
 //funzione per scrivere una riga vuota, riempita da spazi, usata per creare i nuovi paragrafi
 char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow, int*linesPerColumn, int* startRow, int* total_length, int* nPage){
+    if(*countColumn == 0){
+        outputText[*currentRow] = malloc(sizeof(char*) * (*total_length));
+    }
+    
     if (*countColumn < *ncolumn - 1) {
         int totSpace = *columnWidth + *distanceColumn;
         for (int i = 0; i < totSpace ; i++) {
@@ -286,7 +294,7 @@ char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerCo
     }
     *currentRow = riga;
     int spazi = *total_length;
-    strcat(outputText[*currentRow], "\n%%%\n");
+    strcat(outputText[*currentRow], "%%%");
     *currentRow += 1;
     *startRow = *currentRow;
     *nPage +=1;
@@ -332,6 +340,7 @@ void writeText(char** outputText, int* linesPerColumn, int* nPage) {
     else {
         p = (*linesPerColumn+1)**nPage-1; 
     }
+
     for (int i = 0; i < p; i++) {
         fprintf(fp, "%s", outputText[i]);
         fprintf(fp, "\n");
@@ -346,7 +355,7 @@ char* readFile(char* path) {
         return a;
     }
     const unsigned num = 1024;
-    char string[num];
+    char* string;
     char* text = "";
     while(fgets(string, num, fp)){
         text = concat(text, string);

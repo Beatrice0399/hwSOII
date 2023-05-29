@@ -1,3 +1,3 @@
-main:
+all:
 	gcc main.c -o main
-	./main input.txt 3 42 27 4
+	./main Input2.txt 3 15 28 4
