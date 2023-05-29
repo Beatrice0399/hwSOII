@@ -42,25 +42,30 @@ char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* dista
 
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int*nPage); 
 
-int main(int argc, char* argv[]) {
 
+int main(int argc, char ** argv) {
+    char* pathText = argv[1];
+    /*
+    int nColumn = atoi(argv[2]);
+    int linesPerColumn = atoi(argv[3]);
+    int columnWidth = atoi(argv[4]);
+    int distanceColumn = atoi(argv[5]);
+    */
     //Settings
     int* nColumn = malloc(sizeof(int));
-    int* linesPerColumn = malloc(sizeof(int));
-    int* columnWidth = malloc(sizeof(int));      
+    int* linesPerColumn = malloc(sizeof(int));    //6
+    int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
-    int length = len(argv[1]);
-    char* txt_path = malloc(length*2*sizeof(*txt_path));
-    strcpy(txt_path, argv[1]);
-    *nColumn = atoi(argv[2]);
-    *linesPerColumn = atoi(argv[3]);
-    *columnWidth = atoi(argv[4]);
-    *distanceColumn = atoi(argv[5]);
-     printf("ECCOMI\n\n");
+    *nColumn = 3;
+    *linesPerColumn = 50;
+    *columnWidth = 25;
+    *distanceColumn = 7;
+
     //Input text
-    char* pathFile = getPath(txt_path);
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    char* pathFile = getPath("Input2.txt");
     char* input_text = readFile(pathFile);
-     printf("ECCOMI\n\n");
     //Total length
     int* pageLength = malloc(sizeof(int));
     *pageLength = lenPage(*nColumn, *columnWidth, *distanceColumn);
@@ -109,9 +114,10 @@ int main(int argc, char* argv[]) {
                 strcpy(array[0], token);  
                 *nwords = 1;
             }
-            if( *nPage == 1 && *countColumn == 2 && *countRow == 41 ) {
+            if( *nPage == 1 && *countColumn == 2 && *countRow == 9) {
                 printf("QUI\n");
                 printArray(outputText, linesPerColumn, nPage);
+                printf("\n\n\n");
             }
         }
 
@@ -151,6 +157,8 @@ char** justify(int *nwords, int* currentRow, char** array, char **outputText, in
         addSpace(outputText, currentRow, *distanceColumn);
     }
     outputText = newLine(outputText, currentRow, countRow, startRow, linesPerColumn, countColumn, nColumn, total_length, nPage);
+    *nwords = 0;
+
     return outputText;
 }
 
