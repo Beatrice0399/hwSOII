@@ -114,6 +114,8 @@ int main(int argc, char ** argv) {
                 strcpy(array[0], token);  
                 *nwords = 1;
             }
+
+            //DA TOGLIERE
             if( *nPage == 1 && *countColumn == 2 && *countRow == 9) {
                 printf("QUI\n");
                 printArray(outputText, linesPerColumn, nPage);
