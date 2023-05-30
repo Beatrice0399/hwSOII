@@ -44,18 +44,22 @@ char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerCo
 
 
 int main(int argc, char ** argv) {
-    char* nameFile = argv[0];
     char* pathText = argv[1];
+    /*
+    int nColumn = atoi(argv[2]);
+    int linesPerColumn = atoi(argv[3]);
+    int columnWidth = atoi(argv[4]);
+    int distanceColumn = atoi(argv[5]);
+    */
     //Settings
     int* nColumn = malloc(sizeof(int));
-    int* linesPerColumn = malloc(sizeof(int));   
-    int* columnWidth = malloc(sizeof(int));     
+    int* linesPerColumn = malloc(sizeof(int));    //6
+    int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
-
-    *nColumn = atoi(argv[2]);
-    *linesPerColumn = atoi(argv[3]);
-    *columnWidth = atoi(argv[4]);
-    *distanceColumn = atoi(argv[5]);
+    *nColumn = 3;
+    *linesPerColumn = 50; //40
+    *columnWidth = 27;  //28
+    *distanceColumn = 4; //7
 
     //Input text
     char cwd[1024];
@@ -110,15 +114,23 @@ int main(int argc, char ** argv) {
                 strcpy(array[0], token);  
                 *nwords = 1;
             }
+            /*
+            //DA TOGLIERE
+            if( *nPage == 1 && *countColumn == 2 && *countRow == 9) {
+                //printf("QUI\n");
+                printArray(outputText, linesPerColumn, nPage);
+                printf("\n\n\n");
+            }
+            */
         }
 
     }
-    char* token = array[*nwords-1];
-    char* occurrence = strstr(token, "\r\n");
-    int lenToken1 = occurrence - token;
+    char* token0 = array[*nwords-1];
+    char* occurrence = strstr(token0, "\r\n");
+    int lenToken1 = occurrence - token0;
     char* token1 = malloc(lenToken1 * sizeof(char));
     //memcpy(token1, token, lenToken1);
-    strncpy(token1, token, lenToken1);
+    strncpy(token1, token0, lenToken1);
     strcpy(array[*nwords-1], token1);  
     outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
                                 countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
@@ -148,6 +160,8 @@ char** justify(int *nwords, int* currentRow, char** array, char **outputText, in
         addSpace(outputText, currentRow, *distanceColumn);
     }
     outputText = newLine(outputText, currentRow, countRow, startRow, linesPerColumn, countColumn, nColumn, total_length, nPage);
+    *nwords = 0;
+
     return outputText;
 }
 
@@ -176,6 +190,7 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
         addSpace(outputText, currentRow, spazi);
     }
     outputText = newLine(outputText, currentRow, countRow, startRow, linesPerColumn, countColumn, ncolumn, total_length, nPage);
+    *nwords = 0;
     return outputText;
 }
 
@@ -275,14 +290,14 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
 //funzione per creare la nuova pagina
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){
     int lungh = (*linesPerColumn + 1)*(*nPage+1) - 1;
-    *outputText = realloc(*outputText, sizeof(char*) * lungh);
+    outputText = realloc(outputText, sizeof(char*) * lungh);
     int riga = *currentRow;
     for (int i = riga; i < lungh; i++) {
         outputText[i] = malloc(*total_length*sizeof(*outputText[i])); 
     }
     *currentRow = riga;
     int spazi = *total_length;
-    strcat(outputText[*currentRow], "\n%%%\n");
+    strcat(outputText[*currentRow], "%%%");
     *currentRow += 1;
     *startRow = *currentRow;
     *nPage +=1;
@@ -316,7 +331,7 @@ void inizializza(char** array, int* size, int* length) {
 }
 
 void writeText(char** outputText, int* linesPerColumn, int* nPage) {
-    FILE *fp = fopen("output.txt", "w+"); 
+    FILE *fp = fopen("output2.txt", "w+"); 
     if (fp == NULL){ 
         printf("file non trovato");
         exit(-1); 

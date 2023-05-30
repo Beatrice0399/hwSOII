@@ -1,3 +1,0 @@
-Sistemi Operativi II Modulo. Progetto (Homework).
-
-L’obiettivo è implementare un programma C che trasformi un testo in italiano da una 

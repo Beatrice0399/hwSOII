@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     int* nwords = malloc(sizeof(int));          //per contare il numero di parole che entrano su una riga di una colonna
     int* countRow = malloc(sizeof(int));        //per tenere traccia delle righe scritte in una colonna
     int* countColumn = malloc(sizeof(int));     //per tenere traccia del numero di colonne scritte
-    int* startRow = malloc(sizeof(int));       //puntatore per tornare all'inizio della colonna successiva (quando non si è più nella prima pagina)
+    int* startRow = malloc(sizeof(int));        //puntatore per tornare all'inizio della colonna successiva (quando non si è più nella prima pagina)
     int* nPage = malloc(sizeof(int));
     int* conspazi = malloc(sizeof(int));
     *nPage = 1;
@@ -141,7 +141,8 @@ char** justify(int *nwords, int* currentRow, char** array, char **outputText, in
     int remaining_spaces = * columnWidth - n_of_char;
     spaceWord(array_spaces, n_spaces, remaining_spaces);
     if(*countColumn == 0){
-        outputText[*currentRow] = malloc(sizeof(char*) * *total_length);
+        outputText[*currentRow] = malloc(*total_length*sizeof(*outputText[*currentRow]));
+        //outputText[*currentRow] = malloc(sizeof(char*) * *total_length);
     }
     strcat(outputText[*currentRow], array[0]);
     for(int i = 1; i< *nwords; i++){
@@ -161,7 +162,8 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
     int count = 0;
     int lenParole = 0;
     if(*countColumn == 0){
-        outputText[*currentRow] = malloc(sizeof(char*) * (*total_length));
+        outputText[*currentRow] = malloc(*total_length*sizeof(*outputText[*currentRow]));
+        //outputText[*currentRow] = malloc(sizeof(char*) * (*total_length));
     }
     for (int i = 0; i < *nwords; i++) {
         lenParole += len(array[i]);
@@ -212,6 +214,7 @@ char** newLine(char** outputText, int* currentRow, int* countRow, int* startRow,
 //funzione per scrivere una riga vuota, riempita da spazi, usata per creare i nuovi paragrafi
 char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow, int*linesPerColumn, int* startRow, int* total_length, int* nPage){
     if(*countColumn == 0){
+        //outputText[*currentRow] = malloc(*total_length*sizeof(*outputText[*currentRow]));
         outputText[*currentRow] = malloc(sizeof(char*) * (*total_length));
     }
     
@@ -287,7 +290,7 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
 //funzione per creare la nuova pagina
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){
     int lungh = (*linesPerColumn + 1)*(*nPage+1) - 1;
-    *outputText = realloc(*outputText, sizeof(char*) * lungh);
+    outputText = realloc(outputText, sizeof(char*) * lungh);
     int riga = *currentRow;
     for (int i = riga; i < lungh; i++) {
         outputText[i] = malloc(*total_length*sizeof(*outputText[i])); 

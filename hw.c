@@ -20,8 +20,6 @@ void spaceWord(int* array_spaces, int* n_spaces, int remaining_spaces);
 char** newLine(char** outputText, int* currentRow, int* countRow, int* startRow, int* linesPerColumn,
      int* countColumn, int* nColumn, int* total_length, int* nPage);
 
-void emptySpaceColumns(int spazio_colonne, int riga, int colonna, char** matrice);
-
 char** justify(int *nwords, int* currentRow, char** array, char **outputText, int* countColumn, int* distanceColumn, int* nColumn, int* countRow,
     int* linesPerColumn, int* startRow, int* columnWidth, int* total_length, int* nPage);
 
@@ -44,26 +42,27 @@ char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerCo
 
 
 int main(int argc, char ** argv) {
-    char* pathText = argv[1];
-    /*
-    int nColumn = atoi(argv[2]);
-    int linesPerColumn = atoi(argv[3]);
-    int columnWidth = atoi(argv[4]);
-    int distanceColumn = atoi(argv[5]);
-    */
     //Settings
+    char* pathText = malloc(sizeof(*pathText));
     int* nColumn = malloc(sizeof(int));
     int* linesPerColumn = malloc(sizeof(int));    //6
     int* columnWidth = malloc(sizeof(int));      //12
     int* distanceColumn = malloc(sizeof(int));   
+    /*
+    strcpy(pathText, argv[1]);
+    *nColumn = atoi(argv[2]);
+    *linesPerColumn = atoi(argv[3]);
+    *columnWidth = atoi(argv[4]);
+    *distanceColumn = atoi(argv[5]);
+    */
+    
     *nColumn = 3;
-    *linesPerColumn = 50;
-    *columnWidth = 25;
-    *distanceColumn = 7;
+    *linesPerColumn = 40;
+    *columnWidth = 27;
+    *distanceColumn = 4;
+    
 
     //Input text
-    char cwd[1024];
-    getcwd(cwd, sizeof(cwd));
     char* pathFile = getPath("Input2.txt");
     char* input_text = readFile(pathFile);
     //Total length
@@ -114,13 +113,18 @@ int main(int argc, char ** argv) {
                 strcpy(array[0], token);  
                 *nwords = 1;
             }
-
+            
             //DA TOGLIERE
-            if( *nPage == 1 && *countColumn == 2 && *countRow == 9) {
-                printf("QUI\n");
+            if( *nPage == 1 && *countColumn == 2 && *countRow == 26) {
+                //printf("QUI\n");
                 printArray(outputText, linesPerColumn, nPage);
+                char* str = malloc(sizeof(*str));
+                int* p = malloc(sizeof(int));
+                *p = *currentRow +1;
+                strcpy(str, outputText[*p]);
                 printf("\n\n\n");
             }
+            
         }
 
     }
@@ -133,7 +137,7 @@ int main(int argc, char ** argv) {
     strcpy(array[*nwords-1], token1);  
     outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
                                 countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-    printArray(outputText, linesPerColumn, nPage);
+    //printArray(outputText, linesPerColumn, nPage);
     writeText(outputText, linesPerColumn, nPage);
     return 0;
 }
@@ -141,6 +145,8 @@ int main(int argc, char ** argv) {
 //funzione per scrivere le righe allineate ad entramni i margini
 char** justify(int *nwords, int* currentRow, char** array, char **outputText, int* countColumn, int* distanceColumn, int* nColumn, int* countRow,
     int* linesPerColumn, int* startRow, int* columnWidth, int* total_length, int* nPage) {
+    char* str = malloc(sizeof(*str));
+    strcpy(str, outputText[*currentRow]);    
     int n_of_char = 0;
     for(int i = 0; i < *nwords; i++){
         n_of_char += len(array[i]);
@@ -158,8 +164,11 @@ char** justify(int *nwords, int* currentRow, char** array, char **outputText, in
     if (*countColumn < *nColumn-1) {
         addSpace(outputText, currentRow, *distanceColumn);
     }
+    strcpy(str, outputText[*currentRow]);    
     outputText = newLine(outputText, currentRow, countRow, startRow, linesPerColumn, countColumn, nColumn, total_length, nPage);
     *nwords = 0;
+    strcpy(str, outputText[*currentRow]);    
+    
 
     return outputText;
 }
@@ -171,8 +180,8 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
     int lenParole = 0;
     for (int i = 0; i < *nwords; i++) {
         lenParole += len(array[i]);
-        char* prova = malloc(sizeof(*prova));
-        strcpy(prova, array[i]);
+        //char* prova = malloc(sizeof(*prova));
+        //strcpy(prova, array[i]);
         strcat(outputText[*currentRow], array[i]);
         count ++;                
         if (count < *nwords) {
@@ -198,8 +207,12 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
     verrà creata la nuova pagina
 */
 char** newLine(char** outputText, int* currentRow, int* countRow, int* startRow, int* linesPerColumn, int* countColumn, int* ncolumn, int* total_length, int* nPage) {
-    *currentRow += 1;
+    char* str = malloc(sizeof(*str));
+    strcpy(str, outputText[*currentRow]);  
+    *currentRow +=1;
     *countRow +=1;
+    //strcpy(str, outputText[*currentRow]);  
+
     if (*countRow == *linesPerColumn) {
         if (*countColumn == *ncolumn-1) {
             outputText = newPage(outputText, currentRow, startRow, linesPerColumn, total_length, nPage);
@@ -212,6 +225,8 @@ char** newLine(char** outputText, int* currentRow, int* countRow, int* startRow,
             *countColumn += 1;
             }
     }
+    strcpy(str, outputText[*currentRow]);  
+
     return outputText;
 }
 
@@ -268,9 +283,8 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
         else {
             outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn, countRow, 
                                     linesPerColumn, startRow, columnWidth, pageLength, nPage);
-            *nwords = 0;
-            strcpy(array[*nwords], token1);
-            *nwords +=1;
+            strcpy(array[0], token1);
+            *nwords =1;
             *conspazi = lenToken1; 
             outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
                                         countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
@@ -280,8 +294,8 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
             outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, 
                                     linesPerColumn, startRow, pageLength, nPage);
     }
-    *nwords = 1;
     strcpy(array[0], token2);       //Prima parola del nuovo paragrafo
+    *nwords = 1;
     *conspazi = len(token2) +1;
     return outputText;
 }
@@ -289,25 +303,20 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
 //funzione per creare la nuova pagina
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){
     int lungh = (*linesPerColumn + 1)*(*nPage+1) - 1;
-    *outputText = realloc(*outputText, sizeof(char*) * lungh);
+    outputText = realloc(outputText, sizeof(char*) * lungh);
     int riga = *currentRow;
     for (int i = riga; i < lungh; i++) {
         outputText[i] = malloc(*total_length*sizeof(*outputText[i])); 
     }
     *currentRow = riga;
     int spazi = *total_length;
-    strcat(outputText[*currentRow], "\n%%%\n");
+    strcat(outputText[*currentRow], "%%%");
     *currentRow += 1;
     *startRow = *currentRow;
     *nPage +=1;
     return outputText;
 } 
 
-void emptySpaceColumns(int spazio_colonne, int riga, int colonna, char** matrice){
-    for (int i = 1; i <= spazio_colonne; i++) {
-        matrice[riga][colonna + i] = ' ';
-    }
-}
 
 //spazi tra le parole di ogni riga
 void spaceWord(int* array_spaces, int* n_spaces, int remaining_spaces){
@@ -330,7 +339,7 @@ void inizializza(char** array, int* size, int* length) {
 }
 
 void writeText(char** outputText, int* linesPerColumn, int* nPage) {
-    FILE *fp = fopen("output.txt", "w+"); 
+    FILE *fp = fopen("output3.txt", "w+"); 
     if (fp == NULL){ 
         printf("file non trovato");
         exit(-1); 
