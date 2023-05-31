@@ -1,8 +1,6 @@
 #ifndef FILEIO_H
 #define FILEIO_H
 
-char* readFile(char* path);
-
-void writeText(char** outputText, int* linesPerColumn, int* nPage);
+void writeFile(char* path, char** text, int* size, int* total_length);
 
 #endif

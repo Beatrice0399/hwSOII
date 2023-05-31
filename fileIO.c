@@ -1,41 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include "fileIO.h"
-#include "path.h"
+#include "fileio.h"
+#include "strman.h"
 
-char* readFile(char* path) {
-    FILE *fp = fopen(path, "r");
-    char *a = "Error";
-    if(fp == NULL){
-        printf("Errore nell'apertura del file");
-        return a;
-    }
-    const unsigned num = 1024;
-    char string[num];
-    char* text = "";
-    while(fgets(string, num, fp)){
-        text = concat(text, string);
-    }
-    return text;
-}
-
-void writeText(char** outputText, int* linesPerColumn, int* nPage) {
-    FILE *fp = fopen("singleT.txt", "w+"); 
-    if (fp == NULL){ 
-        printf("file non trovato");
-        exit(-1); 
-    }
-    int p = 0;
-    if (*nPage == 1) {
-        p = *linesPerColumn; 
-    }
-    else {
-        p = (*linesPerColumn+1)**nPage-1; 
-    }
-    for (int i = 0; i < p; i++) {
-        fprintf(fp, "%s", outputText[i]);
+void writeFile(char* path, char** text, int* size, int* total_length){
+    FILE *fp;
+    fp = fopen(path, "w");
+    fprintf(fp, "%s", text[0]);
+    for(int i = 1; i < *size; i++){
         fprintf(fp, "\n");
+        fprintf(fp, "%s", text[i]);
     }
 }

@@ -43,7 +43,6 @@ char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* dista
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int*nPage); 
 
 int main(int argc, char* argv[]) {
-
     //Settings
     int* nColumn = malloc(sizeof(int));
     int* linesPerColumn = malloc(sizeof(int));
@@ -56,21 +55,21 @@ int main(int argc, char* argv[]) {
     *linesPerColumn = atoi(argv[3]);
     *columnWidth = atoi(argv[4]);
     *distanceColumn = atoi(argv[5]);
-    printf("Starting the formatting...\n");
+
     //Input text
     char* pathFile = getPath(txt_path);
     char* input_text = readFile(pathFile);
+
     //Total length
     int* pageLength = malloc(sizeof(int));
     *pageLength = lenPage(*nColumn, *columnWidth, *distanceColumn);
+
     //Initialize both array buffers
     char** array = malloc(*columnWidth/2*sizeof(*array));
     inizializza(array, columnWidth, columnWidth);
 
     char** outputText = malloc(*linesPerColumn*sizeof(*outputText));
     inizializza(outputText, linesPerColumn, pageLength);
-
-    printf("Processing...\n");
 
     int* currentRow = malloc(sizeof(int));      //per scrivere sull'array di output
     int* nwords = malloc(sizeof(int));          //per contare il numero di parole che entrano su una riga di una colonna
@@ -341,7 +340,7 @@ void writeText(char** outputText, int* linesPerColumn, int* nPage) {
         p = *linesPerColumn; 
     }
     else {
-        p = (*linesPerColumn+1)**nPage-1; 
+        p = ((*linesPerColumn+1)*(*nPage-1)) + *linesPerColumn; 
     }
 
     for (int i = 0; i < p; i++) {
