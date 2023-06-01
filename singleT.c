@@ -50,7 +50,7 @@ int main(int argc, char const *argv[])
             for(char* token = strtok(riga_attuale, " "); token != NULL; token = strtok(NULL, " "))
             {
                 int lenWord = len(token);
-                if ( (*conspazi+lenWord) < *columnWidth) {    
+                if ( (*conspazi+lenWord) <= *columnWidth) {    
                 *conspazi = *conspazi + lenWord + 1;
                 strcpy(bufferArray[*nwords], token);
                 *nwords += 1;

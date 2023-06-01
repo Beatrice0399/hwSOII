@@ -12,4 +12,4 @@ hw:
 
 s: 
 	gcc singleT.c fileIO.c path.c format.c -o singleT
-	./singleT input.txt 4 50 27 4
+	./singleT input.txt 3 50 27 4
