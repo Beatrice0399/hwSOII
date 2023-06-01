@@ -3,10 +3,10 @@
 #include <unistd.h>
 #include <string.h>
 #include "path.h"
-#include "formatText.h"
+#include "format.h"
 
-int lenPage(int n_column, int column_width, int distance_column){
-    int i = column_width*n_column + distance_column*(n_column-1) +1;
+int lenPage(int* n_column, int* column_width, int* distance_column){
+    int i = *column_width*(*n_column) + *distance_column*(*n_column-1) +1;
     return i;
 }
 
@@ -103,21 +103,16 @@ char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* dista
     outputText = newLine(outputText, currentRow, countRow, startRow, linesPerColumn, countColumn, ncolumn, total_length, nPage);
     return outputText;
 }
-
+/*
 //crea un nuovo paragrafo nel testo
-char** newParagraph(char** outputText, char** array, char* token, char* occurrence, int* conspazi, int* columnWidth, int* nwords, 
+char** newParagraph(char** outputText, char** array, char* token, int* conspazi, int* columnWidth, int* nwords, 
     int* currentRow, int* distanceColumn, int*nColumn, int* countColumn, int* linesPerColumn, int* countRow, int* startRow, int* pageLength, int* nPage) 
 {
-    int lenToken1 = occurrence - token;
-    int lenToken2 = len(token) - lenToken1 - 2;
-    char* token1 = malloc(lenToken1 * sizeof(char));
-    char* token2 = malloc(lenToken2 * sizeof(char));
-    memcpy(token1, token, lenToken1);
-    memcpy(token2, occurrence + 4, lenToken2);
+    int lenWord = len(token)
     //se l'ultima parola del paragrafo entra nella riga, allora la riga viene scritta senza essere allineata al bordo sinistro
-    if ( (*conspazi+lenToken1) < *columnWidth) {   
-        *conspazi = *conspazi + lenToken1;
-        strcpy(array[*nwords], token1);
+    if ( (*conspazi+lenWord) < *columnWidth) {   
+        *conspazi = *conspazi + lenWord;
+        strcpy(array[*nwords], token);
         *nwords += 1;
         outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
                                     countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
@@ -151,11 +146,10 @@ char** newParagraph(char** outputText, char** array, char* token, char* occurren
             outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, 
                                     linesPerColumn, startRow, pageLength, nPage);
     }
-    strcpy(array[0], token2);       //Prima parola del nuovo paragrafo
-    *nwords = 1;
-    *conspazi = len(token2) +1;
+ 
     return outputText;
 }
+*/
 
 //funzione per creare la nuova pagina
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){

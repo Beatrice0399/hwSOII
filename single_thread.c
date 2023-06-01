@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "strman.h"
-#include "journal.h"
-#include "fileio.h"
+#include "path.h"
+#include "formatText.h"
+#include "fileIO.h"
 
 int main(int argc, char const *argv[])
 {
@@ -20,15 +20,16 @@ int main(int argc, char const *argv[])
     *caratteri_ogni_colonna = atoi(argv[4]);
     *spazio_tra_colonne = atoi(argv[5]);
     
+    /*
     int* lunghezza_totale = malloc(sizeof(int));
-    *lunghezza_totale = get_total_char_lenght(*numero_colonne, *caratteri_ogni_colonna, *spazio_tra_colonne) + 1;
+    *lunghezza_totale = lenPage(*numero_colonne, *caratteri_ogni_colonna, *spazio_tra_colonne) + 1;
 
-    char** buffer_array = malloc((*lunghezza_totale/2) * sizeof(*buffer_array));
-    initiArr(buffer_array, 0, (*lunghezza_totale/2), *caratteri_ogni_colonna);
+    char** bufferArray = malloc((*lunghezza_totale/2) * sizeof(*bufferArray));
+    inizializza(bufferArray, 0, (*lunghezza_totale/2), *caratteri_ogni_colonna);
     int* lunghezza_output = malloc(sizeof(int));
     *lunghezza_output = *riga_attualee_per_colonna;
-    char** output_text = malloc(*lunghezza_output * sizeof(*output_text));
-    initiArr(output_text, 0, *riga_attualee_per_colonna, *lunghezza_totale);
+    char** outputText = malloc(*lunghezza_output * sizeof(*outputText));
+    initiArr(outputText, 0, *riga_attualee_per_colonna, *lunghezza_totale);
 
     int* nuova_pagine = malloc(sizeof(int));
     int* contatore_parole = malloc(sizeof(int));
@@ -36,7 +37,24 @@ int main(int argc, char const *argv[])
     int* prima_riga_della_pagina = malloc(sizeof(int));
     int* riga = malloc(sizeof(int));
     int* colonna = malloc(sizeof(int));
+    */
+    int* pageLength = malloc(sizeof(int));
+    *pageLength = lenPage(*nColumn, *columnWidth, *distanceColumn);
+    //Initialize both bufferArray buffers
+    char** bufferArray = malloc(*columnWidth/2*sizeof(*bufferArray));
+    inizializza(bufferArray, columnWidth, columnWidth);
 
+    char** outputText = malloc(*linesPerColumn*sizeof(*outputText));
+    inizializza(outputText, linesPerColumn, pageLength);
+
+    int* currentRow = malloc(sizeof(int));      //per scrivere sull'bufferArray di output
+    int* nwords = malloc(sizeof(int));          //per contare il numero di parole che entrano su una riga di una colonna
+    int* countRow = malloc(sizeof(int));        //per tenere traccia delle righe scritte in una colonna
+    int* countColumn = malloc(sizeof(int));     //per tenere traccia del numero di colonne scritte
+    int* startRow = malloc(sizeof(int));        //puntatore per tornare all'inizio della colonna successiva (quando non si è più nella prima pagina)
+    int* nPage = malloc(sizeof(int));
+    int* conspazi = malloc(sizeof(int));
+    *nPage = 1;
     char* pathFile = getPath(input_path);
     FILE *file = fopen(pathFile, "r");
 
@@ -46,16 +64,35 @@ int main(int argc, char const *argv[])
         if(riga_attuale != NULL){
             for(char* token = strtok(riga_attuale, " "); token != NULL; token = strtok(NULL, " "))
             {
-                output_text = addtok(token, output_text, buffer_array, nuova_pagine, riga,
-                                        colonna, lunghezza_output, riga_attualee_per_colonna, prima_riga_della_pagina, lunghezza_totale,
-                                        contatore_parole, caratteri_ogni_colonna, contatore_caratteri, spazio_tra_colonne, numero_colonne);  
+                if ( (*conspazi+lenWord) < *columnWidth) {    
+                *conspazi = *conspazi + lenWord + 1;
+                strcpy(array[*nwords], token);
+                *nwords += 1;
+                }
+                else {
+                    if (*nwords == 1) {
+                        *conspazi -=1;
+                        outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, 
+                                                    nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
+                        *conspazi = lenWord + 1;         
+                        strcpy(array[0], token);  
+                        *nwords = 1;
+                    }
+                    else {
+                        outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn,
+                                                countRow, linesPerColumn, startRow, columnWidth, pageLength, nPage); 
+                        *conspazi = lenWord + 1;         
+                        strcpy(array[0], token);  
+                        *nwords = 1;
+                    }
+                } 
             }
-            output_text = new_paragraph(output_text, buffer_array, nuova_pagine, riga, colonna,
+            outputText = new_paragraph(outputText, bufferArray, nuova_pagine, riga, colonna,
                                                 lunghezza_output, riga_attualee_per_colonna, prima_riga_della_pagina, lunghezza_totale, contatore_parole, caratteri_ogni_colonna,
                                                 contatore_caratteri, spazio_tra_colonne, numero_colonne);
         }
     }
 
-    writeFile(getPath("single_thread_output.txt"), output_text, lunghezza_output, lunghezza_totale);
+    writeFile(getPath("single_thread_output.txt"), outputText, lunghezza_output, lunghezza_totale);
     return 0;
 }
