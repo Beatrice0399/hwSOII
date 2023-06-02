@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "path.h"
 #include "format.h"
 #include "fileIO.h"
 

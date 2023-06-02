@@ -3,6 +3,10 @@
 
 int lenPage(int* n_column, int* column_width, int* distance_column);
 
+void addSpace(char** outputText, int* currentRow, int spazi);
+
+int len(char* word);
+
 void inizializza(char** array, int* size, int* length);
 
 void spaceWord(int* array_spaces, int* n_spaces, int remaining_spaces);

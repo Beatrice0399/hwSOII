@@ -1,8 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include "fileIO.h"
-#include "path.h"
 
+//funzione per ottenere il path locale del file in input
+char* getPath(const char* txt_path){
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    char *result = malloc(strlen(cwd) + strlen(txt_path) + 6);
+    strcpy(result, cwd);
+    strcat(result, "/");
+    strcat(result, txt_path);
+    return result;
+}
 
 void writeText(char** outputText, int* linesPerColumn, int* nPage) {
     FILE *fp = fopen("output.txt", "w+"); 

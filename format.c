@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "path.h"
 #include "format.h"
 
 int lenPage(int* n_column, int* column_width, int* distance_column){
@@ -10,11 +9,42 @@ int lenPage(int* n_column, int* column_width, int* distance_column){
     return i;
 }
 
+/*data in input un array e un puntatore 
+vengono aggiunti all'array il numero di spazi dati in input
+*/
+void addSpace(char** outputText, int* currentRow, int spazi){
+    for(int i = 0; i < spazi; i++){
+        strcat(outputText[*currentRow], " ");      
+    }
+}
+
+// per calcolare la lunghezza della singola parola
+int len(char* word) {
+    double lenW = 0;
+    int value = 0;
+        for (int i = 0; word[i] != '\0'; i ++)
+        {
+            value = (int) word[i];
+            
+            if(value == -17 | value == -69 | value == -65){
+            }
+            else if(value == 92){
+                lenW += 0.5;
+            }
+            else if(value < 0){
+                lenW += 0.5;
+            }
+            else{
+                lenW += 1;
+            }
+        }
+    return (int) lenW;
+}
+
 void inizializza(char** array, int* size, int* length) {
     for (int i = 0; i < *size; i++) {
-                array[i] = malloc(*length*sizeof(*array[i]));    
-                //array[i] = (char*)malloc((*length+1) * sizeof(char));
-            }
+        array[i] = malloc(*length*sizeof(*array[i]));    
+    }
 }
 
 //funzione per scrivere le righe allineate ad entramni i margini

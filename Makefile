@@ -1,3 +1,3 @@
 main:
-	gcc singleThread.c fileIO.c path.c format.c -o singleThread
-	./singleThread input.txt 3 55 30 4
+	gcc singleThread.c fileIO.c format.c -o singleThread
+	./singleThread input.txt 4 55 25 4
