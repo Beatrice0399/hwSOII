@@ -20,7 +20,7 @@ char* readFile(char* path) {
 }
 
 void writeText(char** outputText, int* linesPerColumn, int* nPage) {
-    FILE *fp = fopen("singleText.txt", "w+"); 
+    FILE *fp = fopen("output.txt", "w+"); 
     if (fp == NULL){ 
         printf("file non trovato");
         exit(-1); 

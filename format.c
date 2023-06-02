@@ -6,8 +6,15 @@
 #include "format.h"
 
 int lenPage(int* n_column, int* column_width, int* distance_column){
-    int i = *column_width*(*n_column) + *distance_column*(*n_column-1) +1;
+    int i = (*column_width*(*n_column))*2 + *distance_column*(*n_column-1) +1;
     return i;
+}
+
+void inizializza(char** array, int* size, int* length) {
+    for (int i = 0; i < *size; i++) {
+                array[i] = malloc(*length*sizeof(*array[i]));    
+                //array[i] = (char*)malloc((*length+1) * sizeof(char));
+            }
 }
 
 //funzione per scrivere le righe allineate ad entramni i margini
@@ -103,53 +110,6 @@ char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* dista
     outputText = newLine(outputText, currentRow, countRow, startRow, linesPerColumn, countColumn, ncolumn, total_length, nPage);
     return outputText;
 }
-/*
-//crea un nuovo paragrafo nel testo
-char** newParagraph(char** outputText, char** array, char* token, int* conspazi, int* columnWidth, int* nwords, 
-    int* currentRow, int* distanceColumn, int*nColumn, int* countColumn, int* linesPerColumn, int* countRow, int* startRow, int* pageLength, int* nPage) 
-{
-    int lenWord = len(token)
-    //se l'ultima parola del paragrafo entra nella riga, allora la riga viene scritta senza essere allineata al bordo sinistro
-    if ( (*conspazi+lenWord) < *columnWidth) {   
-        *conspazi = *conspazi + lenWord;
-        strcpy(array[*nwords], token);
-        *nwords += 1;
-        outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
-                                    countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-    }
-    //altrimenti l'ultima parola del paragrafo viene scritta nella riga successiva e non viene allineata a sinistra
-    else {   
-        if (*nwords == 1) {
-            *conspazi -=1;
-            noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
-                            countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-            //DA QUI
-            *nwords = 0;
-            strcpy(array[*nwords], token1);
-            *nwords +=1;
-            *conspazi = lenToken1;   
-            outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
-                                        countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-            //A QUI    
-        }
-        else {
-            outputText = justify(nwords, currentRow, array, outputText, countColumn, distanceColumn, nColumn, countRow, 
-                                    linesPerColumn, startRow, columnWidth, pageLength, nPage);
-            strcpy(array[0], token1);
-            *nwords =1;
-            *conspazi = lenToken1; 
-            outputText = noJustified(nwords, currentRow, array, outputText, columnWidth, conspazi, distanceColumn, nColumn, 
-                                        countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-        }
-    }
-    if (*currentRow != *startRow) {
-            outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, 
-                                    linesPerColumn, startRow, pageLength, nPage);
-    }
- 
-    return outputText;
-}
-*/
 
 //funzione per creare la nuova pagina
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){
@@ -173,11 +133,4 @@ void spaceWord(int* array_spaces, int* n_spaces, int remaining_spaces){
     for(int i = 0; i < remaining_spaces; i++){
         array_spaces[i % *n_spaces] ++;
     }
-}
-
-//funzione per inizializzare gli array
-void inizializza(char** array, int* size, int* length) {
-    for (int i = 0; i < *size; i++) {
-                array[i] = malloc(*length*sizeof(*array[i]));    
-            }
 }
