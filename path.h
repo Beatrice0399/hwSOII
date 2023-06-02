@@ -7,7 +7,5 @@ char* getPath(const char* txt_path);
 
 int len(char* word);
 
-char* concat(const char *s1, const char *s2);
-
 #endif
 

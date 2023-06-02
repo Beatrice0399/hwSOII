@@ -1,67 +1,55 @@
-﻿Sistemi Operativi II Modulo.    caratteri  per  colonna); la    per ogni funzione commentare
-Progetto (Homework).            distanza  in  caratteri  tra    brevemente  i  parametri  di
-                                una   colonna   di  testo  e    ingresso/uscita   e  il  suo
-L’obiettivo  è  implementare    l’altra.                        funzionamento  generale; nel
-un programma C che trasformi                                    corpo   di   ogni   funzione
-un  testo in italiano da una    Dati  in uscita e requisiti:    commentare   le   linee   di
-colonna a più colonne su più    un   file   di  testo  ASCII    codice    più    importanti;
-pagine  (come ad es. per una    contenente il testo di input    fornire   un   makefile  per
-pagina  di quotidiano). Sono    incolonnato   e   impaginato    compilare il progetto con un
-richieste  due  versioni del    secondo i parametri espressi    semplice  make;  fornire  un
-programma:   una  a  singolo    dall’utente.  Le pagine sono    file di testo README con una
-processo        e        una    separate  dalla  stringa “\n    breve  spiegazione  dei file
-multi-processo   con  almeno    %%%  \n”;  ogni  paragrafo è    inclusi  e  un breve manuale
-tre processi concorrenti.       separato da una linea vuota;    utente;      la     versione
-                                la  prima colonna di testo è    multi-processo del programma
-Dati     in    ingresso    e    a  sinistra; tutte le righe,    dovrà  essere  costituita da
-requisiti:  un file di testo    tranne   l’ultima,  di  ogni    almeno      tre     processi
-in  codifica Unicode (UTF-8)    paragrafo   dovranno  essere    concorrenti               ed
-contenente   un   testo   in    allineate   ad   entrambi  i    intercomunicanti:   uno  per
-italiano    strutturato   in    margini    della    colonna;    leggere il file di ingresso,
-paragrafi  separati da una o    l’ultima    riga   di   ogni    uno  per  creare le colonne,
-più   linee  vuote  (stringa    paragrafo è solo allineata a    ed   infine   uno   per   la
-contenente solo il carattere    sinistra;  le  parole in una    scrittura    del   file   di
-‘\n’).   Ogni   paragrafo  è    linea     dovranno    essere    output.           (Ulteriori
-costituito   da  una  o  più    separate    da   almeno   un    suddivisioni  del  carico di
-stringhe  terminate  da ‘\n’    carattere   di   spazio;  la    lavoro   in   più   di   tre
-(il   testo  in  ingresso  è    sillabazione   di  eventuali    processi  sono ammesse.) NON
-tutto  su una sola colonna);    parole  troppo  lunghe non è    è  ammesso l’uso di librerie
-il  numero  di  colonne  per    necessaria.                     esterne  con funzioni per la
-pagina su cui distribuire il                                    manipolazione  di stringhe o
-testo;  il  numero  di linee    Requisiti    generali    del    testo  che  non siano quelle
-per  ogni colonna; larghezza    progetto:  ogni  file  .c/.h    standard del C. Eccezione: è
-di  ogni  colonna (numero di    dovrà essere ben commentato:    ammesso  l’uso  di  librerie
-%%%
-esterne  per l’analisi delle    delle  parole  in ingresso e    
-opzioni   della   linea   di    in    uscita    dei   vostri    
-comando    per   il   vostro    programmi   sia   lo  stesso    
-programma.                      (usando  stdin  e stdout nel    
-                                vostri   programmi,   questo    
-Suggerimenti:  usare nomi di    semplice  test  si riduce ad    
-variabili     e     funzioni    una  sola  linea  di comando    
-corrispondenti    al    loro    con l’operatore pipe | della    
-significato/utilizzo;  usare    shell).                         
-stdin     e    stdout    per                                    
-rispettivamente  il testo in    Il punteggio massimo è 6/30,    
-ingresso    e   in   uscita;    articolato    come    segue:    
-sviluppare      prima     la    correttezza   del  programma    
-versiosne  mono-processo del    (3/30);   architettura   del    
-programma,     poi    quella    programma e commenti (2/30);    
-multi-processo;          per    usabilità    e    istruzioni    
-l’analisi   della  linea  di    utente (1/30).                  
-comando si consiglia getopt,                                    
-di  uso molto semplice e che    
-fa  parte della libreria GNU    
-standard        del       C;    
-concentratevi   prima  sulla    
-correttezza  dei  programmi,    
-cioè  assicuratevi  con  più    
-testi   di   input   che   i    
-programmi    producano    un    
-output  incolonnato  secondo    
-le richieste. Se avete tempo    
-alla  fine,  ottimizzate  il    
-codice  per  uso  di CPU e/o    
-RAM,     mantenendone     la    
-correttezza; potete usare wc    
-per verificare che il numero    
+﻿Sistemi  Operativi  II Modulo.    spazio;   la  sillabazione  di    parte   della   libreria   GNU
+Progetto (Homework).              eventuali parole troppo lunghe    standard  del C; concentratevi
+                                  non è necessaria.                 prima  sulla  correttezza  dei
+L’obiettivo  è implementare un                                      programmi,  cioè  assicuratevi
+programma  C  che trasformi un    Requisiti     generali     del    con  più  testi di input che i
+testo   in   italiano  da  una    progetto:   ogni   file  .c/.h    programmi  producano un output
+colonna  a  più colonne su più    dovrà  essere  ben commentato:    incolonnato     secondo     le
+pagine  (come  ad  es. per una    per  ogni  funzione commentare    richieste. Se avete tempo alla
+pagina  di  quotidiano).  Sono    brevemente   i   parametri  di    fine,  ottimizzate  il  codice
+richieste   due  versioni  del    ingresso/uscita   e   il   suo    per   uso   di  CPU  e/o  RAM,
+programma:   una   a   singolo    funzionamento   generale;  nel    mantenendone  la  correttezza;
+processo  e una multi-processo    corpo    di    ogni   funzione    potete usare wc per verificare
+con    almeno   tre   processi    commentare  le linee di codice    che  il numero delle parole in
+concorrenti.                      più   importanti;  fornire  un    ingresso   e   in  uscita  dei
+                                  makefile   per   compilare  il    vostri programmi sia lo stesso
+Dati  in ingresso e requisiti:    progetto con un semplice make;    (usando  stdin  e  stdout  nel
+un  file  di testo in codifica    fornire   un   file  di  testo    vostri    programmi,    questo
+Unicode  (UTF-8) contenente un    README     con    una    breve    semplice test si riduce ad una
+testo  in italiano strutturato    spiegazione dei file inclusi e    sola   linea  di  comando  con
+in paragrafi separati da una o    un  breve  manuale  utente; la    l’operatore   pipe   |   della
+più   linee   vuote   (stringa    versione   multi-processo  del    shell).                       
+contenente  solo  il carattere    programma     dovrà     essere                                  
+‘\n’).    Ogni   paragrafo   è    costituita   da   almeno   tre    Il  punteggio  massimo è 6/30,
+costituito   da   una   o  più    processi     concorrenti    ed    articolato     come     segue:
+stringhe terminate da ‘\n’ (il    intercomunicanti:    uno   per    correttezza    del   programma
+testo  in  ingresso è tutto su    leggere  il  file di ingresso,    (3/30);    architettura    del
+una  sola  colonna); il numero    uno  per creare le colonne, ed    programma  e  commenti (2/30);
+di  colonne  per pagina su cui    infine  uno  per  la scrittura    usabilità  e istruzioni utente
+distribuire   il   testo;   il    del file di output. (Ulteriori    (1/30).                       
+numero   di   linee  per  ogni    suddivisioni   del  carico  di                                  
+colonna;   larghezza  di  ogni    lavoro  in più di tre processi    
+colonna  (numero  di caratteri    sono  ammesse.)  NON è ammesso    
+per  colonna);  la distanza in    l’uso  di librerie esterne con    
+caratteri  tra  una colonna di    funzioni  per la manipolazione    
+testo e l’altra.                  di  stringhe  o  testo che non    
+                                  siano  quelle  standard del C.    
+Dati in uscita e requisiti: un    Eccezione:  è ammesso l’uso di    
+file di testo ASCII contenente    librerie esterne per l’analisi    
+il  testo di input incolonnato    delle  opzioni  della linea di    
+e    impaginato    secondo   i    comando    per    il    vostro    
+parametri             espressi    programma.                        
+dall’utente.  Le  pagine  sono                                      
+separate dalla stringa “\n %%%    Suggerimenti:  usare  nomi  di    
+\n”; ogni paragrafo è separato    variabili      e      funzioni    
+da  una  linea vuota; la prima    corrispondenti     al     loro    
+colonna di testo è a sinistra;    significato/utilizzo;    usare    
+tutte    le    righe,   tranne    stdin     e     stdout     per    
+l’ultima,  di  ogni  paragrafo    rispettivamente  il  testo  in    
+dovranno  essere  allineate ad    ingresso    e    in    uscita;    
+entrambi   i   margini   della    sviluppare  prima la versiosne    
+colonna; l’ultima riga di ogni    mono-processo  del  programma,    
+paragrafo  è  solo allineata a    poi quella multi-processo; per    
+sinistra;  le  parole  in  una    l’analisi   della   linea   di    
+linea dovranno essere separate    comando  si  consiglia getopt,    
+da   almeno  un  carattere  di    di uso molto semplice e che fa    
