@@ -15,8 +15,8 @@ char* getPath(const char* txt_path){
     return result;
 }
 
-void writeText(char** outputText, int* linesPerColumn, int* nPage) {
-    FILE *fp = fopen("output.txt", "w+"); 
+void writeText(char* path, char** outputText, int* linesPerColumn, int* nPage) {
+    FILE *fp = fopen(path, "w+"); 
     if (fp == NULL){ 
         printf("file non trovato");
         exit(-1); 

@@ -83,7 +83,9 @@ int main(int argc, char const *argv[])
             *nwords = 0;
         }
     }
-    writeText(outputText, linesPerColumn, nPage);
+    char* path = malloc(1024* sizeof(char));
+    strcpy(path, "single_output.txt");
+    writeText(path, outputText, linesPerColumn, nPage);
 
     return 0;
 }
