@@ -83,48 +83,6 @@ int main(int argc, char const *argv[])
     st = pthread_join(tid[1], &t);
     tt = pthread_join(tid[2], &t);
 
-    /*
-    for(char* riga_attuale = fgets(buff_str, 1024, file); riga_attuale != NULL; riga_attuale = fgets(buff_str, 1024, file)){
-        riga_attuale = strtok(riga_attuale, "\n\r");
-        if(riga_attuale != NULL){
-            for(char* token = strtok(riga_attuale, " "); token != NULL; token = strtok(NULL, " "))
-            {
-                int lenWord = len(token);
-                if ( (*conspazi+lenWord) <= *columnWidth) {    
-                *conspazi = *conspazi + lenWord + 1;
-                strcpy(bufferArray[*nwords], token);
-                *nwords += 1;
-                }
-                else {
-                    if (*nwords == 1) {
-                        *conspazi -=1;
-                        outputText = noJustified(nwords, currentRow, bufferArray, outputText, columnWidth, conspazi, distanceColumn, 
-                                                    nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-                        *conspazi = lenWord + 1;         
-                        strcpy(bufferArray[0], token);  
-                        *nwords = 1;
-                    }
-                    else {
-                        outputText = justify(nwords, currentRow, bufferArray, outputText, countColumn, distanceColumn, nColumn,
-                                                countRow, linesPerColumn, startRow, columnWidth, pageLength, nPage); 
-                        *conspazi = lenWord + 1;         
-                        strcpy(bufferArray[0], token);  
-                        *nwords = 1;
-                    }
-                } 
-            }
-            outputText = noJustified(nwords, currentRow, bufferArray, outputText, columnWidth, conspazi, distanceColumn, 
-                                                    nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-            
-           if (*currentRow != *startRow) {
-            outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, 
-                                    linesPerColumn, startRow, pageLength, nPage);
-            }
-            *conspazi = 0;
-            *nwords = 0;
-        }
-    }*/
-
     return 0;
 }
 
