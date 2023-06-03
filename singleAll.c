@@ -156,7 +156,7 @@ char* getPath(const char* txt_path){
     return result;
 }
 
-// per calcolare la lunghezza della singola parola
+
 int len(char* word) {
     double lenW = 0;
     int value = 0;
@@ -221,7 +221,6 @@ void writeText(char** outputText, int* linesPerColumn, int* nPage) {
     }
 }
 
-//funzione per scrivere le righe allineate ad entramni i margini
 char** justify(int *nwords, int* currentRow, char** array, char **outputText, int* countColumn, int* distanceColumn, int* nColumn, int* countRow,
     int* linesPerColumn, int* startRow, int* columnWidth, int* total_length, int* nPage) {
     int n_of_char = 0;
@@ -246,7 +245,6 @@ char** justify(int *nwords, int* currentRow, char** array, char **outputText, in
     return outputText;
 }
 
-//funzione per scrivere la riga non allineata al margine sinistro
 char** noJustified(int *nwords, int* currentRow, char** array, char** outputText, int* columnWidth, int* conSpazi, int* distanceColumn, int* ncolumn, int* countColumn, 
             int* linesPerColumn, int* countRow, int* startRow, int* total_length, int* nPage){
     int count = 0;
@@ -276,10 +274,7 @@ char** noJustified(int *nwords, int* currentRow, char** array, char** outputText
     return outputText;
 }
 
-/*
-    funzione per calcolare se la pagina è completa. Se sono state scritte il massimo di righe e di colonne possibili date in input, 
-    verrà creata la nuova pagina
-*/
+
 char** newLine(char** outputText, int* currentRow, int* countRow, int* startRow, int* linesPerColumn, int* countColumn, int* ncolumn, int* total_length, int* nPage) {
     *currentRow += 1;
     *countRow +=1;
@@ -298,7 +293,7 @@ char** newLine(char** outputText, int* currentRow, int* countRow, int* startRow,
     return outputText;
 }
 
-//funzione per scrivere una riga vuota, riempita da spazi, usata per creare i nuovi paragrafi
+
 char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* distanceColumn, int* ncolumn, int* countColumn, int* countRow, int*linesPerColumn, int* startRow, int* total_length, int* nPage){
     if (*countColumn < *ncolumn - 1) {
         int totSpace = *columnWidth + *distanceColumn;
@@ -315,7 +310,7 @@ char** emptyRow(int* currentRow, char** outputText, int* columnWidth, int* dista
     return outputText;
 }
 
-//funzione per creare la nuova pagina
+
 char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerColumn, int* total_length, int* nPage){
     int lungh = (*linesPerColumn + 1)*(*nPage+1) - 1;
     outputText = realloc(outputText, sizeof(char*) * lungh);
@@ -335,7 +330,7 @@ char** newPage(char** outputText, int* currentRow, int*startRow, int* linesPerCo
     return outputText;
 } 
 
-//spazi tra le parole di ogni riga
+
 void spaceWord(int* array_spaces, int* n_spaces, int remaining_spaces){
     for(int i = 0; i < remaining_spaces; i++){
         array_spaces[i % *n_spaces] ++;
