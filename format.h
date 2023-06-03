@@ -1,7 +1,7 @@
 #ifndef FORMAT_H
 #define FORMAT_H
 
-int lenPage(int* n_column, int* column_width, int* distance_column);
+int lenArrayOutput(int* n_column, int* column_width, int* distance_column);
 
 void addSpace(char** outputText, int* currentRow, int spazi);
 

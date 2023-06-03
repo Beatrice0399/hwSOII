@@ -4,7 +4,11 @@
 #include <unistd.h>
 #include "fileIO.h"
 
-//funzione per ottenere il path locale del file in input
+/** 
+* \brief La funzione calcola e restituisce il path relativo del file dato in input
+* \param txt_path 
+* \return \c char* 
+* */
 char* getPath(const char* txt_path){
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
@@ -15,6 +19,15 @@ char* getPath(const char* txt_path){
     return result;
 }
 
+/** 
+ * \brief La funzione, dati i parametri in input apre o crea, se non esiste, un file txt in cui verrà scritto il testo giustificato e incolonnato
+ * \param path 
+ * \param outputText un puntatore ad un array di array di caratteri in cui è il testo da scrivere sul file
+ * \param linesPerColumn
+ * \param nPage
+ * \return \c void 
+ * 
+ */ 
 void writeText(char* path, char** outputText, int* linesPerColumn, int* nPage) {
     FILE *fp = fopen(path, "w+"); 
     if (fp == NULL){ 

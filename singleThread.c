@@ -4,15 +4,22 @@
 #include <string.h>
 #include "format.h"
 #include "fileIO.h"
-
+/* Dati in input i parametri e dopo aver inizializzato le variabili necessarie, attraverso un ciclo for leggo ogni riga del testo che rappresenta 
+un paragrafo. Per ogni riga del testo in input, calcolo la lunghezza della singola parola, se questa rientra nella lunghezza del numero di caratteri
+per colonna, allora inserisco la parola nel bufferArray, aumento il contatore del numero di parole per riga e aumento la variabile
+con spazi della lunghezza della parola +1 (spazio). Ripeto il ciclo finchè la nuova parola non eccede il numero di caratteri per colonna.
+Viene invocata la funzione per giustifare le parole contenute all'interno del bufferArray e verranno copiate nell'array oputputText che verrà poi 
+scritto nel file output.txt . Se siamo alla fine del paragrafo, allora le parole non verranno giustificate ak margine destro e verrà aggiunta 
+una riga vuota per dividere un paragrafo dall'altro. 
+*/
 int main(int argc, char const *argv[])
 {
     //Settings
-    char* pathText = malloc(sizeof(*pathText));
-    int* nColumn = malloc(sizeof(int));
-    int* linesPerColumn = malloc(sizeof(int));    //6
-    int* columnWidth = malloc(sizeof(int));      //12
-    int* distanceColumn = malloc(sizeof(int)); 
+    char* pathText = malloc(sizeof(*pathText));     //nome del file in input
+    int* nColumn = malloc(sizeof(int));             //numero di colonne 
+    int* linesPerColumn = malloc(sizeof(int));      //numero di righe per colonna
+    int* columnWidth = malloc(sizeof(int));         //numero di caratteri per colonna
+    int* distanceColumn = malloc(sizeof(int));      //distanza tra una colonna e l'altra
 
     strcpy(pathText, argv[1]);
     *nColumn = atoi(argv[2]);
@@ -21,12 +28,13 @@ int main(int argc, char const *argv[])
     *distanceColumn = atoi(argv[5]);
 
     int* pageLength = malloc(sizeof(int));
-    *pageLength = lenPage(nColumn, columnWidth, distanceColumn);
+    *pageLength = lenArrayOutput(nColumn, columnWidth, distanceColumn);
 
-    //Initialize both bufferArray buffers
+    //array bidimensionale per inserire le parole che dovranno essere giustificate in una riga del testo 
     char** bufferArray = malloc(*columnWidth/2*sizeof(*bufferArray)); 
     inizializza(bufferArray, columnWidth, columnWidth);
 
+    //array bidimensionale per inserire il testo formattato e giustificato che verrà scritto sul file in output
     char** outputText = malloc(*linesPerColumn*sizeof(*outputText));
     inizializza(outputText, linesPerColumn, pageLength);
 
@@ -35,8 +43,8 @@ int main(int argc, char const *argv[])
     int* countRow = malloc(sizeof(int));        //per tenere traccia delle righe scritte in una colonna
     int* countColumn = malloc(sizeof(int));     //per tenere traccia del numero di colonne scritte
     int* startRow = malloc(sizeof(int));        //puntatore per tornare all'inizio della colonna successiva (quando non si è più nella prima pagina)
-    int* nPage = malloc(sizeof(int));
-    int* conspazi = malloc(sizeof(int));
+    int* nPage = malloc(sizeof(int));           //contatore per il numero di pagine scritte
+    int* conspazi = malloc(sizeof(int));        //lughezza delle parole, compresi gli spazi, che possono essere scritte in una riga; utilzzata per la funzione che non giustifica il testo
     *nPage = 1;
 
     char* pathFile = getPath(pathText);
