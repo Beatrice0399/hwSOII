@@ -1,15 +1,20 @@
-Nella cartella sono presenti due versioni del programma: una a processo singolo e una multi-processo.
+Sistemi Operativi II - Homework
+
+Lo scopo del programma è, dati un file di testo in input e degli interi, che rappresentano il numero di colonne, il numero di righe per colonne, il numero di caratteri per colonna e la distanza tra una colonna e l'altra, creare un file di testo contenente il testo formattato secondo i requisiti appena elencati.
+
+Nella cartella sono presenti due versioni del programma, una a processo singolo e una multi-processo, e due file header, fileIO.h nel quale vengono dichiarate le funzioni necessarie per gestire il file in input, quindi la funzione utilizzata per ottenere il path relativo del file, e il file format.h, contenente le funzioni utilizzate per gestire le varie formattazioni del testo. Entrambi i file header sono inclusi nei programma con il main, in versione single-thread e multi-thread. 
+
 Per compilare il programma, aprire il terminale e posizionarsi nella directory contenente i file.
 Se si vuole compilare il programma a processo singolo eseguire il comando, seguito dal tasto invio:
         make single
     o in alternativa:
-	    gcc singleThread.c fileIO.c format.c -o singleThread
+	gcc singleThread.c fileIO.c format.c -o singleThread
 
-    per l'esecuzione del file digitare nel terminale
+per l'esecuzione del file digitare nel terminale
         ./singleThread 
-    seguito dal nome del file di testo che si vuole incolonnare, il numero di colonne, il numero di righe per colonne,
-    il numero di caratteri per colonna e la distanza tra una colonna e l'altra. Esempio:
+seguito dal nome del file di testo che si vuole incolonnare, il numero di colonne, il numero di righe per colonne, il numero di caratteri per colonna e la distanza tra una colonna e l'altra. Esempio:
         ./singleThread input.txt 4 30 25 4
+
 
 Se si vuole compilare il programma multi-processo, eseguire il comando:
         make multi
