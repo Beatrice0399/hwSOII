@@ -51,18 +51,23 @@ int main(int argc, char const *argv[])
     FILE *file = fopen(pathFile, "r");
 
     char* buff_str = malloc(1024*sizeof(char*));
+    //leggo ogni paragrafo del testo in input
     for(char* riga_attuale = fgets(buff_str, 1024, file); riga_attuale != NULL; riga_attuale = fgets(buff_str, 1024, file)){
         riga_attuale = strtok(riga_attuale, "\n\r");
         if(riga_attuale != NULL){
+            //leggo ciascuna parola del paragrafo
             for(char* token = strtok(riga_attuale, " "); token != NULL; token = strtok(NULL, " "))
             {
                 int lenWord = len(token);
+                //se la parola (token) entra nella riga, allora verrà inserita nel bufferArray
                 if ( (*conspazi+lenWord) <= *columnWidth) {    
                 *conspazi = *conspazi + lenWord + 1;
                 strcpy(bufferArray[*nwords], token);
                 *nwords += 1;
                 }
+                //altrimenti scrivo le parole, contenute nel bufferArray, nell'array outputText
                 else {
+                    //se nella riga può essere scritta una sola parola, allora verrà invocata la funzione per scrivere il testo non giustificato
                     if (*nwords == 1) {
                         *conspazi -=1;
                         outputText = noJustified(nwords, currentRow, bufferArray, outputText, columnWidth, conspazi, distanceColumn, 
@@ -80,15 +85,16 @@ int main(int argc, char const *argv[])
                     }
                 } 
             }
+            //L'ultima riga di ogni paragrafo verrà scritta non giustificata
             outputText = noJustified(nwords, currentRow, bufferArray, outputText, columnWidth, conspazi, distanceColumn, 
                                                     nColumn, countColumn, linesPerColumn, countRow, startRow, pageLength, nPage);
-            
-           if (*currentRow != *startRow) {
+            //la riga vuota tra un paragrafo e l'altro non verrà aggiunta se la successiva riga da scrivere risulta essere la prima di una colonna
+            if (*currentRow != *startRow) {
             outputText = emptyRow(currentRow, outputText, columnWidth, distanceColumn, nColumn, countColumn, countRow, 
                                     linesPerColumn, startRow, pageLength, nPage);
             }
-            *conspazi = 0;
-            *nwords = 0;
+            //*conspazi = 0;
+            //*nwords = 0;
         }
     }
     char* path = malloc(1024* sizeof(char));
