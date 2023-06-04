@@ -1,0 +1,23 @@
+Nella cartella sono presenti due versioni del programma: una a processo singolo e una multi-processo.
+Per compilare il programma, aprire il terminale e posizionarsi nella directory contenente i file.
+Se si vuole compilare il programma a processo singolo eseguire il comando, seguito dal tasto invio:
+        make single
+    o in alternativa:
+	    gcc singleThread.c fileIO.c format.c -o singleThread
+
+    per l'esecuzione del file digitare nel terminale
+        ./singleThread 
+    seguito dal nome del file di testo che si vuole incolonnare, il numero di colonne, il numero di righe per colonne,
+    il numero di caratteri per colonna e la distanza tra una colonna e l'altra. Esempio:
+        ./singleThread input.txt 4 30 25 4
+
+Se si vuole compilare il programma multi-processo, eseguire il comando:
+        make multi
+    o in alternativa:
+	    gcc multiThread.c fileIO.c format.c -o multiThread
+
+    come per il programma a processo singolo, se si vuole eseguire, digitare nel terminale 
+        ./multiThread
+    seguito dai parametri elencati precedentemente. Esempio:
+        ./multiThread input.txt 4 30 25 4
+
