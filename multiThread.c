@@ -58,6 +58,7 @@ int main(int argc, char const *argv[])
     nPage = malloc(sizeof(int)); 
     *nPage = 1;
 
+    //inizializzo le variabili per gestire i thread
     thread_attivo = malloc(sizeof(int));
     thread_one_running = malloc(sizeof(int));
     thread_two_running = malloc(sizeof(int));
@@ -78,14 +79,18 @@ int main(int argc, char const *argv[])
     st = pthread_create(&tid[1], NULL, &thread_two, delimitatore);
     tt = pthread_create(&tid[2], NULL, &thread_three, outputPath);
 
-    //Aspetto che tutti i thread abbiano finito di girare
+    //Aspetto che tutti i thread abbiano terminato 
     ft = pthread_join(tid[0], &t);
     st = pthread_join(tid[1], &t);
     tt = pthread_join(tid[2], &t);
 
     return 0;
 }
-
+/**
+ * \brief la funzione legge il file in input, riga per riga
+ * \param path
+ * \return void
+ * */
 void *thread_one(char* path){
     char* pathFile = getPath(path);
     FILE *file = fopen(pathFile, "r");
@@ -95,11 +100,13 @@ void *thread_one(char* path){
             char* riga = fgets(buff_str, 2048, file);
             if(riga){
                 riga = strtok(riga, "\n\r");
+                //Se la riga esiste, viene passata al secondo thread per essere formattata
                 if(riga){
                     strcpy(riga_attuale, riga);
                     *thread_attivo = 2;
                 }
             }
+            //quando il file in input è terminato, viene attivato il thread per scrivere il testo formattato sul file output
             else{
                 *thread_one_running = 0;
                 *thread_two_running = 0;
@@ -111,8 +118,11 @@ void *thread_one(char* path){
     pthread_exit(0);
 }
 
+/** \brief La funzione richiama al suo interno le funzioni necessarie per la formattazione del testo 
+*   \param delimitatore
+*   \return void
+*/
 void *thread_two(char* delimitatore){
-    
     int* currentRow = malloc(sizeof(int));      //per scrivere sull'bufferArray di output
     int* nwords = malloc(sizeof(int));          //per contare il numero di parole che entrano su una riga di una colonna
     int* countRow = malloc(sizeof(int));        //per tenere traccia delle righe scritte in una colonna
@@ -167,10 +177,11 @@ void *thread_two(char* delimitatore){
     pthread_exit(0);
 }
 
+/** \brief la funzione richiama la funzione per scrivere il testo sul file output
+ *  \param path
+ *  \return void
+ * */
 void *thread_three(char* path){
-    
-    
-
     char* pathFile = getPath(path);
     while(*thread_three_running){
         

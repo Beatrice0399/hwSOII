@@ -9,9 +9,10 @@ un paragrafo. Per ogni riga del testo in input, calcolo la lunghezza della singo
 per colonna, allora inserisco la parola nel bufferArray, aumento il contatore del numero di parole per riga e aumento la variabile
 con spazi della lunghezza della parola +1 (spazio). Ripeto il ciclo finchè la nuova parola non eccede il numero di caratteri per colonna.
 Viene invocata la funzione per giustifare le parole contenute all'interno del bufferArray e verranno copiate nell'array oputputText che verrà poi 
-scritto nel file output.txt . Se siamo alla fine del paragrafo, allora le parole non verranno giustificate ak margine destro e verrà aggiunta 
+scritto nel file output.txt . Se siamo alla fine del paragrafo, allora le parole non verranno giustificate al margine destro e verrà aggiunta 
 una riga vuota per dividere un paragrafo dall'altro. 
 */
+
 int main(int argc, char const *argv[])
 {
     //Settings
